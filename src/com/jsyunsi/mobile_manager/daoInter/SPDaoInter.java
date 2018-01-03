@@ -5,7 +5,6 @@ import com.jsyunsi.mobile_manager.vo.SP;
 /**
  * SP服务管理接口
  * 
- * @author 紫风铃
  *
  */
 public interface SPDaoInter {

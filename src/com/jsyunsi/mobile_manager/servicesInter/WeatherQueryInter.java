@@ -5,7 +5,6 @@ import java.util.Date;
 /**
  * 天气查询服务接口
  * 
- * @author 紫风铃
  *
  */
 public interface WeatherQueryInter {

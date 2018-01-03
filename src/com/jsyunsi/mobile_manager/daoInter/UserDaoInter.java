@@ -5,7 +5,6 @@ import com.jsyunsi.mobile_manager.vo.User;
 /**
  * 用户数据管理接口
  * 
- * @author 紫风铃
  *
  */
 public interface UserDaoInter {
@@ -25,33 +24,14 @@ public interface UserDaoInter {
 	 * @return
 	 */
 	boolean delUser(String userID);
-
 	/**
 	 * 设置用户注册IP
 	 * 
 	 * @param userID
-	 * @param userIP
+	 * @param user
 	 * @return
 	 */
-	boolean setUserIP(String userID, String userIP);
-
-	/**
-	 * 设置用户在线状态
-	 * 
-	 * @param userID
-	 * @param status
-	 * @return
-	 */
-	boolean setOnlineStatus(String userID, boolean status);
-
-	/**
-	 * 设置用户余额
-	 * 
-	 * @param userID
-	 * @param balance
-	 * @return
-	 */
-	boolean setBalance(String userID, float balance);
+	boolean updateUser(String userID,User user);
 
 	/**
 	 * 获得用户信息
