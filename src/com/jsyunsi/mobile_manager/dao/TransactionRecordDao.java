@@ -47,18 +47,25 @@ public class TransactionRecordDao implements TransactionRecordDaoInter {
 		Connection conn = DBUtil.getconnection();
 		String sql = "select * from transaction_record where userID=?";
 		TransactionRecord tr = null;
-		ArrayList<TransactionRecord> list = null;
+		/**
+		 * 此处代码存在问题，已修改
+		 * 
+		 * @modifiedBy 紫风铃
+		 */
+		ArrayList<TransactionRecord> list = new ArrayList<TransactionRecord>();
 		try {
-
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, userID);
 			ResultSet rs = ps.executeQuery();
-			tr.setUserID(rs.getString(1));
-			tr.setSpID(rs.getString(2));
-			tr.setCharge(rs.getFloat(3));
-			tr.setTradingTime(rs.getDate(4));
-			tr.setRemarks(rs.getString(5));
-			list.add(tr);
+			while (rs.next()) {
+				tr = new TransactionRecord();
+				tr.setUserID(rs.getString(1));
+				tr.setSpID(rs.getString(2));
+				tr.setCharge(rs.getFloat(3));
+				tr.setTradingTime(rs.getDate(4));
+				tr.setRemarks(rs.getString(5));
+				list.add(tr);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

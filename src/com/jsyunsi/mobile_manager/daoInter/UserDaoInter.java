@@ -24,6 +24,7 @@ public interface UserDaoInter {
 	 * @return
 	 */
 	boolean delUser(String userID);
+
 	/**
 	 * 设置用户注册IP
 	 * 
@@ -31,7 +32,7 @@ public interface UserDaoInter {
 	 * @param user
 	 * @return
 	 */
-	boolean updateUser(String userID,User user);
+	boolean updateUser(String userID, User user);
 
 	/**
 	 * 获得用户信息
@@ -39,5 +40,5 @@ public interface UserDaoInter {
 	 * @param userID
 	 * @return 用户不存在返回null
 	 */
-	 User getUser(String userID);
+	User getUser(String userID);
 }
