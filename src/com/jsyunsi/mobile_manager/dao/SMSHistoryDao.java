@@ -22,7 +22,7 @@ public class SMSHistoryDao implements SMSHistoryDaoInter {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, smsHistory.getSenderID());
 			ps.setString(2, smsHistory.getReceiverID());
-			ps.setDate(3, (Date) smsHistory.getSendTime());
+			ps.setDate(3, new Date(smsHistory.getSendTime().getTime()));//date:util->sql转换
 			ps.setString(4, smsHistory.getMessage());
 			rows = ps.executeUpdate();
 		} catch (SQLException e) {
