@@ -15,7 +15,7 @@ public interface SPDaoInter {
 	 * @param spService
 	 * @return true-添加成功
 	 */
-	boolean addSPService(SP spService);
+	boolean addSP(SP sp);
 
 	/**
 	 * 删除SP服务
@@ -24,7 +24,7 @@ public interface SPDaoInter {
 	 *            SP服务ID
 	 * @return true-删除成功
 	 */
-	boolean deleteSPService(String ID);
+	boolean deleteSP(String ID);
 
 	/**
 	 * 更新SP服务信息
@@ -33,7 +33,7 @@ public interface SPDaoInter {
 	 * @param spService
 	 * @return
 	 */
-	boolean updateSPService(String ID, SP spService);
+	boolean updateSP(String ID, SP sp);
 
 	/**
 	 * 查询SP服务名称
