@@ -59,5 +59,5 @@ public interface UserDaoInter {
 	 * @param userID
 	 * @return 用户不存在返回null
 	 */
-	User getUser(String userID);
+	 User getUser(String userID);
 }

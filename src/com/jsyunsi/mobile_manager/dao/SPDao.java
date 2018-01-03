@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import com.jsyunsi.mobile_manager.daoInter.SPDaoInter;
 import com.jsyunsi.mobile_manager.util.DBUtil;
 import com.jsyunsi.mobile_manager.vo.SP;
@@ -87,11 +86,11 @@ public class SPDao implements SPDaoInter {
 			ps.setString(1, ID);
 			resultSet = ps.executeQuery();
 			while (resultSet.next()) {
-				String ID1 = resultSet.getString(1);
+				String id1 = resultSet.getString(1);
 				String name = resultSet.getString(2);
 				float charge = resultSet.getFloat(3);
 				boolean avaiable = resultSet.getBoolean(4);
-				sp = new SP(ID1, name, charge, avaiable);
+				sp = new SP(id1, name, charge, avaiable);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

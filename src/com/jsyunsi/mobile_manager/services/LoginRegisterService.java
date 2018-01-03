@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.jsyunsi.mobile_manager.daoInter.UserDaoInter;
+import com.jsyunsi.mobile_manager.servicesInter.LoginRegisterInter;
 import com.jsyunsi.mobile_manager.util.DBUtil;
+import com.jsyunsi.mobile_manager.vo.User;
 
 /**
  * 用户登录检测实现
@@ -13,18 +16,10 @@ import com.jsyunsi.mobile_manager.util.DBUtil;
  * @author 紫风铃
  *
  */
-public class LoginCheckService {
+public class LoginRegisterService implements LoginRegisterInter {
 
-	/**
-	 * 用户登录检查
-	 * 
-	 * @param user
-	 *            用户名
-	 * @param passwd
-	 *            密码
-	 * @return 1：用户名不存在；2：密码错误； 3：密码正确；0：方法没有正确执行
-	 */
-	public int check(String user, String passwd) {
+	@Override
+	public int LoginCheck(String userID, String passwd) {
 		// 方法2-数据库查询
 		int status = 0;
 		ResultSet resultSet = null;
@@ -32,7 +27,7 @@ public class LoginCheckService {
 		Connection connection = DBUtil.getconnection();
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, user);
+			ps.setString(1, userID);
 			resultSet = ps.executeQuery();
 			if (!resultSet.next()) {
 				status = 1;// 用户不存在
@@ -50,6 +45,18 @@ public class LoginCheckService {
 			status = 0;
 		} finally {
 			DBUtil.releaseConnection(connection);
+		}
+		return status;
+	}
+
+	@Override
+	public boolean registerUser(User user) {
+		// TODO Auto-generated method stub
+		boolean status = false;
+		UserDaoInter userdao = null;
+		User u = userdao.getUser(user.getUserID());
+		if (u == null) {
+			status = userdao.addUSer(user);
 		}
 		return status;
 	}
