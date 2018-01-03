@@ -22,13 +22,13 @@ public class FormatSMS {
 		super();
 	}
 
-	public FormatSMS(String cmd, String sourceAddress, String targetAddress, String status, String sMSContent) {
+	public FormatSMS(String cmd, String sourceAddress, String targetAddress, String status, String SMSContent) {
 		super();
 		this.cmd = cmd;
 		this.sourceAddress = sourceAddress;
 		this.targetAddress = targetAddress;
 		this.status = status;
-		SMSContent = sMSContent;
+		this.SMSContent = SMSContent;
 	}
 
 	public String getCmd() {
