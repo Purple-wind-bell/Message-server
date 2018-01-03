@@ -24,6 +24,8 @@ public class User {
 		super();
 	}
 
+
+
 	public User(String userID, String userIp, boolean onlineStatus, boolean frozenStatus, float balance,
 			boolean openSP) {
 		super();

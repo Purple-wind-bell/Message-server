@@ -24,6 +24,12 @@ public class TransactionRecord {
 		super();
 	}
 
+	
+	public TransactionRecord(String userID) {
+		super();
+		this.userID = userID;
+	}
+
 	public TransactionRecord(String userID, String spID, float charge, Date tradingTime, String remarks) {
 		super();
 		this.userID = userID;

@@ -7,7 +7,6 @@ import com.jsyunsi.mobile_manager.vo.SMSHistory;
 /**
  * SMS历史记录管理接口
  * 
- * @author 紫风铃
  *
  */
 public interface SMSHistoryDaoInter {

@@ -14,7 +14,7 @@ import com.jsyunsi.mobile_manager.config.Constant;
  */
 public class DBUtil {
 
-	private DBUtil() {
+	public DBUtil() {
 	}
 
 	/**
