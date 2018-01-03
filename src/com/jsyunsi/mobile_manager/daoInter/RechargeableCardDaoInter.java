@@ -13,9 +13,11 @@ public interface RechargeableCardDaoInter {
 	 *
 	 * @param cardID
 	 *            充值卡卡号
+	 * @param usable
+	 *            状态
 	 * @return true:更新成功
 	 */
-	boolean updateRechargeCardStatus(String cardID);
+	boolean updateRechargeCardStatus(String cardID, boolean usable);
 
 	/**
 	 * 检测充值卡状态
@@ -44,7 +46,17 @@ public interface RechargeableCardDaoInter {
 	 *            卡号
 	 * @param password
 	 *            密码
-	 * @return 状态码：1-添加成功；2-添加失败，卡号已存在
+	 * @param denomination
+	 *            面额
+	 * @return 状态码：1-添加成功；2-添加失败
 	 */
-	int addRechargeCard(String cardID, String password);
+	int addRechargeCard(String cardID, String password, float denomination);
+
+	/**
+	 * 获得面额
+	 * 
+	 * @param cardID
+	 * @return 面额
+	 */
+	float getDenomination(String cardID);
 }
