@@ -34,11 +34,7 @@ public class TransactionRecordDao implements TransactionRecordDaoInter {
 		} finally {
 			DBUtil.releaseConnection(conn);
 		}
-		if (i == 0) {
-			return false;
-		} else {
-			return true;
-		}
+		return i > 0;// 优化代码
 	}
 
 	@Override

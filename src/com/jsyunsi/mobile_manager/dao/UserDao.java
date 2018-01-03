@@ -33,11 +33,7 @@ public class UserDao implements UserDaoInter {
 		} finally {
 			DBUtil.releaseConnection(conn);
 		}
-		if (i == 0) {
-			return false;
-		} else {
-			return true;
-		}
+		return i > 0;
 	}
 
 	@Override
