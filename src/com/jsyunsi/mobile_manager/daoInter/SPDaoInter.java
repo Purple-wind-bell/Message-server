@@ -36,29 +36,12 @@ public interface SPDaoInter {
 	boolean updateSP(String ID, SP sp);
 
 	/**
-	 * 查询SP服务名称
+	 * 查询SP服务信息
 	 * 
 	 * @param ID
 	 *            SP服务ID
 	 * @return
 	 */
-	String getName(String ID);
-
-	/**
-	 * 查询SP服务费
-	 * 
-	 * @param ID
-	 *            SP服务ID
-	 * @return 服务费
-	 */
-	float getCharge(String ID);
-
-	/**
-	 * 判断服务是否可用
-	 * 
-	 * @param ID
-	 * @return true-可用
-	 */
-	String isAvaiable(String ID);
+	SP getSP(String ID);
 
 }

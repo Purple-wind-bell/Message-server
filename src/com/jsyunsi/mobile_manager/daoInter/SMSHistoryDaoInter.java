@@ -11,6 +11,7 @@ import com.jsyunsi.mobile_manager.vo.SMSHistory;
  *
  */
 public interface SMSHistoryDaoInter {
+
 	/**
 	 * 添加短信历史记录
 	 * 
