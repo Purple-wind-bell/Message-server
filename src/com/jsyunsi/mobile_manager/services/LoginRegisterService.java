@@ -72,7 +72,7 @@ public class LoginRegisterService {
 	public boolean registerUser(String userID, String passwd) {
 		// TODO Auto-generated method stub
 		UserDaoInter userdao = new UserDao();
-		User user = new User();
+		User user = userdao.getUser(userID);
 		user.setUserID(userID);
 		user.setPassword(passwd);
 		user.setBalance(1);

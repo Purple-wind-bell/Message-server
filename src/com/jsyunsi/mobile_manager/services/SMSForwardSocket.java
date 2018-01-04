@@ -1,4 +1,4 @@
-package com.jsyunsi.mobile_manager.util;
+package com.jsyunsi.mobile_manager.services;
 
 import java.io.PrintWriter;
 import java.net.Socket;

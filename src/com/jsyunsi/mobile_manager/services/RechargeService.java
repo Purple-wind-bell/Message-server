@@ -53,6 +53,7 @@ public class RechargeService implements RechargeInter {
 				record.setTradingTime(new Date());
 				record.setRemarks("账号充值" + Float.toString(rCardDao.getDenomination(cardID)) + "元");
 				while (!recordDao.addRecord(record)) {
+					
 				}
 			} else {
 				status = 4;

@@ -49,5 +49,4 @@ public class FormatService {
 		SMSString.append(formatSMS.getContent() != null ? formatSMS.getContent() : "0");
 		return SMSString.toString();
 	}
-
 }
