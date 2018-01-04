@@ -10,6 +10,10 @@ import com.jsyunsi.mobile_manager.vo.FormatSMS;
  */
 public class FormatService {
 
+	private FormatService() {
+
+	}
+
 	/**
 	 * 将字符串短信转换为格式化的短信对象
 	 * 
@@ -17,7 +21,7 @@ public class FormatService {
 	 *            字符串短信
 	 * @return 格式化的短信对象
 	 */
-	public FormatSMS toFormatSMS(String message) {
+	public static FormatSMS toFormatSMS(String message) {
 		// TODO Auto-generated method stub
 		StringBuilder sms = new StringBuilder(message);
 		String cmd = sms.substring(0, 6);
@@ -35,7 +39,7 @@ public class FormatService {
 	 *            格式化的短信对象
 	 * @return 字符串短信
 	 */
-	public String toStringSMS(FormatSMS formatSMS) {
+	public static String toStringSMS(FormatSMS formatSMS) {
 		// TODO Auto-generated method stub
 		StringBuilder SMSString = new StringBuilder();
 		SMSString.append(formatSMS.getCmd());

@@ -26,7 +26,7 @@ public interface UserDaoInter {
 	boolean delUser(String userID);
 
 	/**
-	 * 设置用户注册IP
+	 * 设置用户信息
 	 * 
 	 * @param userID
 	 * @param user

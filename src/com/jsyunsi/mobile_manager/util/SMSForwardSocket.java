@@ -1,11 +1,15 @@
 package com.jsyunsi.mobile_manager.util;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Client extends Thread {
+/**
+ * 一次性发送socket，发送完成后释放
+ * 
+ * @author Administrator
+ *
+ */
+public class SMSForwardSocket extends Thread {
 	/** 创建端口 */
 	Socket socket = null;
 	/** 端口号 */
@@ -14,10 +18,9 @@ public class Client extends Thread {
 	String IP = "127.0.0.1";
 	/** SMS */
 	String sms = null;
-	BufferedReader bReader = null;
 	PrintWriter pWriter = null;
 
-	public Client(String ip, String sms) {
+	public SMSForwardSocket(String ip, String sms) {
 		super();
 		this.IP = ip;
 		this.sms = sms;
@@ -31,18 +34,9 @@ public class Client extends Thread {
 	@Override
 	public void run() {
 		try {
-			bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			pWriter = new PrintWriter(socket.getOutputStream());
-			String get = bReader.readLine();
-			while (true) {
-				if (get != null & get.length() > 0) {
-					pWriter.println(get);
-					pWriter.flush();
-				}
-				if (bReader != null) {
-					String line = bReader.readLine();
-				}
-			}
+			pWriter.println(sms);// 发送
+			pWriter.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

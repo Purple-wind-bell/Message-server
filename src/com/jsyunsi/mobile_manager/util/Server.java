@@ -13,6 +13,7 @@ public class Server extends Thread {
 	Socket socket = null;
 	BufferedReader rdr = null;
 	PrintWriter wtr = null;
+	String line = null;
 
 	public Server() {
 		try {
@@ -23,7 +24,7 @@ public class Server extends Thread {
 	}
 
 	public void run() {
-		while (true) {
+//		while (true) {
 			System.out.println("Listenning...");
 			try {
 				socket = server.accept();// 每个请求交给一个线程去处理
@@ -33,16 +34,17 @@ public class Server extends Thread {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-		}
+//		}
 	}
 
+	
+
 	public static void main(String[] args) {
-		new Server().start();
+		Server s = new Server();
+		s.start();
 	}
 
 	class ServerThread extends Thread {
-
 		Socket sk = null;
 
 		public ServerThread(Socket sk) {
@@ -53,7 +55,7 @@ public class Server extends Thread {
 			try {
 				wtr = new PrintWriter(sk.getOutputStream());
 				rdr = new BufferedReader(new InputStreamReader(sk.getInputStream()));
-				String line = rdr.readLine();
+				line = rdr.readLine();
 				System.out.println("从客户端来的信息：" + line);
 				// 特别，下面这句得加上 “\n”,
 				wtr.println("你好，服务器已经收到您的信息！'" + line + "'\n");
@@ -61,8 +63,14 @@ public class Server extends Thread {
 				System.out.println("已经返回给客户端！");
 			} catch (IOException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					sk.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-
 		}
 
 	}
