@@ -22,7 +22,7 @@ public class RechargeService implements RechargeInter {
 		int status = 4;
 		UserDaoInter uDao = new UserDao();
 		RechargeableCardDaoInter rCardDao = new RechargeableCardDao();
-		int s = rCardDao.checkRechargeCard(cardID, password);
+		int s = rCardDao.checkRechargeCard(cardID, password);//检测充值卡
 		switch (s) {
 		case 1:
 			status = 2;
@@ -49,7 +49,7 @@ public class RechargeService implements RechargeInter {
 				TransactionRecordDaoInter recordDao = new TransactionRecordDao();
 				record.setUserID(userID);
 				record.setSpID(sp.getID());
-				record.setCharge(sp.getCharge());
+				record.setCharge(rCardDao.getDenomination(cardID));
 				record.setTradingTime(new Date());
 				record.setRemarks("账号充值" + Float.toString(rCardDao.getDenomination(cardID)) + "元");
 				while (!recordDao.addRecord(record)) {

@@ -1,11 +1,22 @@
-package com.jsyunsi.mobile_manager.services;
+package com.jsyunsi.mobile_manager.util;
 
-import com.jsyunsi.mobile_manager.servicesInter.TransformationInter;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
 
-public class TransformationService implements TransformationInter {
+/**
+ * 格式化短信与字符串短信之间的转换
+ * 
+ * @author Administrator
+ *
+ */
+public class FormatService {
 
-	@Override
+	/**
+	 * 将字符串短信转换为格式化的短信对象
+	 * 
+	 * @param message
+	 *            字符串短信
+	 * @return 格式化的短信对象
+	 */
 	public FormatSMS toFormatSMS(String message) {
 		// TODO Auto-generated method stub
 		StringBuilder sms = new StringBuilder(message);
@@ -17,7 +28,13 @@ public class TransformationService implements TransformationInter {
 		return new FormatSMS(cmd, sourceAddress, targetAddress, status, SMSContent);
 	}
 
-	@Override
+	/**
+	 * 将格式化的短信对象转化为字符串短信
+	 * 
+	 * @param FormatSMS
+	 *            格式化的短信对象
+	 * @return 字符串短信
+	 */
 	public String toStringSMS(FormatSMS formatSMS) {
 		// TODO Auto-generated method stub
 		StringBuilder SMSString = new StringBuilder();
