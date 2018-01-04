@@ -16,7 +16,7 @@ public class UserDao implements UserDaoInter {
 	public boolean addUSer(User user) {
 		// TODO Auto-generated method stub
 		Connection conn = DBUtil.getconnection();
-		String sql = "insert into user values(?,?,?,?,?,?)";
+		String sql = "insert into user values(?,?,?,?,?,?,?)";
 		int i = 0;
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -26,6 +26,7 @@ public class UserDao implements UserDaoInter {
 			ps.setBoolean(4, user.isFrozenStatus());
 			ps.setFloat(5, user.getBalance());
 			ps.setBoolean(6, user.isOpenSP());
+			ps.setString(7, user.getPassword());
 			i = ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -86,7 +87,7 @@ public class UserDao implements UserDaoInter {
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
 				u = new User(rs.getString(1), rs.getString(2), rs.getBoolean(3), rs.getBoolean(4), rs.getFloat(5),
-						rs.getBoolean(6),rs.getString(7));
+						rs.getBoolean(6), rs.getString(7));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

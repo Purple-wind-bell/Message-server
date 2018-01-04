@@ -16,7 +16,7 @@ public interface RechargeInter {
 	 *            充值卡卡号
 	 * @param password
 	 *            充值卡密码
-	 * @return 状态码：1-充值成功；2-充值卡卡号不存在；3-密码错误
+	 * @return 状态码：1-充值成功；2-充值卡卡号不存在；3-密码错误；4-充值卡失效
 	 */
 	int recharge(String userID, String cardID, String password);
 

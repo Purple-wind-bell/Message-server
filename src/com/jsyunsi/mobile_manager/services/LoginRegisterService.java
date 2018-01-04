@@ -62,6 +62,13 @@ public class LoginRegisterService {
 		return status;
 	}
 
+	/**
+	 * 注册服务
+	 * 
+	 * @param userID
+	 * @param passwd
+	 * @return true:注册成功
+	 */
 	public boolean registerUser(String userID, String passwd) {
 		// TODO Auto-generated method stub
 		UserDaoInter userdao = new UserDao();
