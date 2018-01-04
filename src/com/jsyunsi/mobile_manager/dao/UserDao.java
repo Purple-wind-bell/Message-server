@@ -86,7 +86,7 @@ public class UserDao implements UserDaoInter {
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
 				u = new User(rs.getString(1), rs.getString(2), rs.getBoolean(3), rs.getBoolean(4), rs.getFloat(5),
-						rs.getBoolean(6));
+						rs.getBoolean(6),rs.getString(7));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

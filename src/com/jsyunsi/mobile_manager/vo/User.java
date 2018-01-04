@@ -19,26 +19,23 @@ public class User {
 	float balance;
 	/** 是否开通SP服务 */
 	boolean openSP;
+	/** 密码 */
+	String password;
 
 	public User() {
 		super();
 	}
 
-
-
-	public User(String userID, String userIp, boolean onlineStatus, boolean frozenStatus, float balance,
-			boolean openSP) {
+	public User(String userID, String userIP, boolean onlineStatus, boolean frozenStatus, float balance, boolean openSP,
+			String password) {
 		super();
 		this.userID = userID;
-		this.userIP = userIp;
+		this.userIP = userIP;
 		this.onlineStatus = onlineStatus;
 		this.frozenStatus = frozenStatus;
 		this.balance = balance;
 		this.openSP = openSP;
-	}
-
-	public String getUserID() {
-		return userID;
+		this.password = password;
 	}
 
 	public String getUserIP() {
@@ -59,6 +56,10 @@ public class User {
 
 	public boolean isOpenSP() {
 		return openSP;
+	}
+
+	public String getUserID() {
+		return userID;
 	}
 
 	public void setUserID(String userID) {
@@ -83,6 +84,14 @@ public class User {
 
 	public void setOpenSP(boolean openSP) {
 		this.openSP = openSP;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }
