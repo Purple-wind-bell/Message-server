@@ -1,12 +1,15 @@
 package com.jsyunsi.mobile_manager.vo;
 
+import java.io.Serializable;
+
 /**
  * 短信内容格式化存储
  * 
  * @author Administrator
  *
  */
-public class FormatSMS {
+@SuppressWarnings("serial")
+public class FormatSMS implements Serializable {
 	/** 命令 ，例如003 */
 	String cmd;
 	/** 源地址 */
