@@ -6,12 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Date;
-import com.jsyunsi.mobile_manager.servicesInter.BalanceQueryInter;
-import com.jsyunsi.mobile_manager.servicesInter.QueryRecordInter;
-import com.jsyunsi.mobile_manager.servicesInter.RechargeInter;
-import com.jsyunsi.mobile_manager.servicesInter.SMSForwardInter;
-import com.jsyunsi.mobile_manager.servicesInter.WeatherQueryInter;
 import com.jsyunsi.mobile_manager.util.FormatService;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
 
@@ -60,21 +54,19 @@ public class ServerService extends Thread {
 	 */
 	class ServerThread extends Thread {
 		Socket socket = null;
-		/** 接收的SMS */
-		String insms = null;
-		/** 发送的SMS */
-		String outsms = null;
-		BufferedReader bReader = null;
-		PrintWriter pWriter = null;
 
 		public ServerThread(Socket sk) {
 			this.socket = sk;
 		}
 
 		public void run() {
+			/** 接收的SMS */
+			String insms = null;
+			/** 发送的SMS */
+			String outsms = null;
 			try {
-				pWriter = new PrintWriter(socket.getOutputStream());
-				bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				PrintWriter pWriter = new PrintWriter(socket.getOutputStream());
+				BufferedReader bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				insms = bReader.readLine();
 				// 格式化信息
 				FormatSMS inFormatSMS = FormatService.toFormatSMS(insms);
@@ -82,9 +74,7 @@ public class ServerService extends Thread {
 				outsms = FormatService.toStringSMS(outFormatSMS);
 				pWriter.println(outsms);
 				pWriter.flush();
-			} catch (
-
-			IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
