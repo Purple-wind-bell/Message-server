@@ -8,7 +8,6 @@ import com.jsyunsi.mobile_manager.daoInter.SMSHistoryDaoInter;
 import com.jsyunsi.mobile_manager.daoInter.SPDaoInter;
 import com.jsyunsi.mobile_manager.daoInter.UserDaoInter;
 import com.jsyunsi.mobile_manager.servicesInter.SMSForwardInter;
-import com.jsyunsi.mobile_manager.util.Client;
 import com.jsyunsi.mobile_manager.util.FormatService;
 import com.jsyunsi.mobile_manager.util.SMSForwardSocket;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
@@ -24,24 +23,25 @@ public class SMSForward implements SMSForwardInter {
 	@Override
 	public boolean forward(FormatSMS formatSMS) {
 		boolean status = false;
+		SP sp = spdao.getSP("000");
 		String receiverID = formatSMS.getTargetAddress();
 		User reveicer = udao.getUser(receiverID);
-		if (reveicer != null) {
+		float balance = udao.getUser(formatSMS.getSourceAddress()).getBalance();// 余额充足
+		if (reveicer != null && (balance - sp.getCharge()) >= 0) {
 			boolean onLine = reveicer.isOnlineStatus();
 			if (onLine) {
 				String sms = FormatService.toStringSMS(formatSMS);// 转发信息
 				String ip = reveicer.getUserIP();
 				new SMSForwardSocket(ip, sms).start();
 				// 扣费
-				SP sp = spdao.getSP("000");
 				String senderID = formatSMS.getSourceAddress();
 				User sender = udao.getUser(senderID);
-				float balance = sender.getBalance() - sp.getCharge();
+				balance = sender.getBalance() - sp.getCharge();
 				sender.setBalance(balance);
 				while (!udao.updateUser(sender.getUserID(), sender)) {
 				}
 				// 添加历史记录
-				SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Date(), formatSMS.getSMSContent());
+				SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Date(), formatSMS.getContent());
 				while (!smsHistoryDao.addSMSHistory(smsHistory)) {
 				}
 				status = true;

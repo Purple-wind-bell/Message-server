@@ -16,19 +16,19 @@ public class FormatSMS {
 	/** 短信长度或返回状态码 */
 	String status;
 	/** 短信内容 */
-	String SMSContent;
+	String content;
 
 	public FormatSMS() {
 		super();
 	}
 
-	public FormatSMS(String cmd, String sourceAddress, String targetAddress, String status, String SMSContent) {
+	public FormatSMS(String cmd, String sourceAddress, String targetAddress, String status, String content) {
 		super();
 		this.cmd = cmd;
 		this.sourceAddress = sourceAddress;
 		this.targetAddress = targetAddress;
 		this.status = status;
-		this.SMSContent = SMSContent;
+		this.content = content;
 	}
 
 	public String getCmd() {
@@ -47,8 +47,8 @@ public class FormatSMS {
 		return status;
 	}
 
-	public String getSMSContent() {
-		return SMSContent;
+	public String getContent() {
+		return content;
 	}
 
 	public void setCmd(String cmd) {
@@ -67,8 +67,8 @@ public class FormatSMS {
 		this.status = status;
 	}
 
-	public void setSMSContent(String sMSContent) {
-		SMSContent = sMSContent;
+	public void setContent(String content) {
+		content = content;
 	}
 
 }

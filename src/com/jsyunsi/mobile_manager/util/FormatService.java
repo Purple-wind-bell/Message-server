@@ -42,11 +42,11 @@ public class FormatService {
 	public static String toStringSMS(FormatSMS formatSMS) {
 		// TODO Auto-generated method stub
 		StringBuilder SMSString = new StringBuilder();
-		SMSString.append(formatSMS.getCmd());
-		SMSString.append(formatSMS.getSourceAddress());
-		SMSString.append(formatSMS.getTargetAddress());
-		SMSString.append(formatSMS.getStatus());
-		SMSString.append(formatSMS.getSMSContent());
+		SMSString.append(formatSMS.getCmd() != null ? formatSMS.getCmd() : "000000");
+		SMSString.append(formatSMS.getSourceAddress() != null ? formatSMS.getSourceAddress() : "00000000000");
+		SMSString.append(formatSMS.getTargetAddress() != null ? formatSMS.getTargetAddress() : "00000000000");
+		SMSString.append(formatSMS.getStatus() != null ? formatSMS.getStatus() : "0000");
+		SMSString.append(formatSMS.getContent() != null ? formatSMS.getContent() : "0");
 		return SMSString.toString();
 	}
 

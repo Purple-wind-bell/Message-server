@@ -8,8 +8,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server extends Thread {
+	/** 创建端口 */
 	ServerSocket server = null;
+	/** 端口号 */
 	int PORT = 5600;
+	/** IP地址 */
+	String IP = "127.0.0.1";
+	/** SMS */
+	String sms = null;
 	Socket socket = null;
 	BufferedReader rdr = null;
 	PrintWriter wtr = null;
@@ -24,7 +30,7 @@ public class Server extends Thread {
 	}
 
 	public void run() {
-//		while (true) {
+		while (true) {
 			System.out.println("Listenning...");
 			try {
 				socket = server.accept();// 每个请求交给一个线程去处理
@@ -34,10 +40,8 @@ public class Server extends Thread {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-//		}
+		}
 	}
-
-	
 
 	public static void main(String[] args) {
 		Server s = new Server();

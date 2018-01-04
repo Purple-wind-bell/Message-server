@@ -73,4 +73,12 @@ public class TransactionRecord {
 		this.remarks = remarks;
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		String string = "用户:" + userID + "\nSP服务id:" + spID + "\n业务服务费: " + Float.toString(charge) + "\n交易时间: "
+				+ tradingTime.toString() + "\n交易备注: " + remarks;
+		return string;
+	}
+
 }
