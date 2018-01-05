@@ -6,9 +6,12 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.jsyunsi.mobile_manager.dao.UserDao;
+import com.jsyunsi.mobile_manager.daoInter.UserDaoInter;
 import com.jsyunsi.mobile_manager.util.FormatUtil;
 import com.jsyunsi.mobile_manager.util.SendSocket;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
+import com.jsyunsi.mobile_manager.vo.User;
 
 /**
  * 服务器服务监听及处理, 数据接收socket，均采用5600端口
@@ -22,6 +25,7 @@ public class ListenService extends Thread {
 	/** 端口号 */
 	int PORT = 5600;
 	Socket socket = null;
+	UserDaoInter uDao = new UserDao();
 
 	public ListenService() {
 		try {
@@ -63,13 +67,16 @@ public class ListenService extends Thread {
 		public void run() {
 			/** 接收的SMS */
 			String insms = null;
+			FormatSMS outFormatSMS = null;
 			try {
 				BufferedReader bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				while ((insms = bReader.readLine()) != null) {
 					// 格式化信息
 					FormatSMS inFormatSMS = FormatUtil.toFormatSMS(insms);
-					FormatSMS outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
-					new SendSocket(outFormatSMS).send();// 发送回复短信
+					outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
+					if (outFormatSMS != null && uDao.getUser(outFormatSMS.getTargetAddress()) != null) {
+						new SendSocket(outFormatSMS).send();// 发送回复短信
+					}
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

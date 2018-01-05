@@ -28,7 +28,13 @@ public class SMSHandleService {
 	private LoginRegisterService lrService = new LoginRegisterService();
 	private RechargeInter recharge = new RechargeService();
 	private QueryWeatherInter weatherQuery = new QueryWeatherService();
-	private QueryRecordInter queryRecord = null;
+	private QueryRecordInter queryRecord = new QueryRecordService();
+	UserDaoInter udao = new UserDao();
+	SPDaoInter spdao = new SPDao();
+	SMSHistoryDaoInter smsHistoryDao = new SMSHistoryDao();
+	String status = "0001";// 默认返回状态码
+	String smsContent = "0";// 默认返回短信内容
+	String cmd = "CMD002";// 默认命令
 
 	/**
 	 * 登录注册处理
@@ -121,75 +127,79 @@ public class SMSHandleService {
 	 * @return 回复短信
 	 */
 	private FormatSMS SMSHandle(FormatSMS fSMS) {
-		String cmd = fSMS.getCmd();
+		cmd = fSMS.getCmd();
 		String targetAddress = fSMS.getTargetAddress();
 		String sourceAddress = fSMS.getSourceAddress();
-		String status = "0001";// 默认返回状态码
-		String smsContent = "";// 默认返回短信内容
-		if (targetAddress.substring(0, 8).equals("0000000")) {
-			// SP服务
-			switch (targetAddress.substring(8, 11)) {
-			case "001":// 余额查询
-				float balance = bQuery.queryBalance(sourceAddress);
-				status = "0000";
-				smsContent = "当前手机余额：" + Float.toString(balance) + "元";
-				break;
-			case "002":// 天气查询
-				String cityID = fSMS.getContent().substring(2);
-				status = "0000";
-				smsContent = weatherQuery.queryWeather(cityID, new Date());
-				break;
-			case "003":// 充值
-				String cardID = fSMS.getContent().substring(0, 10);
-				String password = fSMS.getContent().substring(10, 16);
-				int s1 = recharge.recharge(sourceAddress, cardID, password);
-				// 1-充值成功；2-充值卡卡号不存在；3-密码错误；4-充值卡失效
-				switch (s1) {
-				case 1:
+		User sender = udao.getUser(sourceAddress);
+		if (sender != null && sender.isOnlineStatus() && !sender.isFrozenStatus()) {// 发件人在数据库中以及发件人状态检查
+			if (targetAddress.substring(0, 8).equals("0000000")) {
+				// SP服务
+				switch (targetAddress.substring(8, 11)) {
+				case "001":// 余额查询
+					float balance = bQuery.queryBalance(sourceAddress);
 					status = "0000";
-					smsContent = "充值成功";
+					smsContent = "当前手机余额：" + Float.toString(balance) + "元";
 					break;
-				case 2:
-					status = "5001";
-					smsContent = "充值卡卡号不存在";
+				case "002":// 天气查询
+					String cityID = fSMS.getContent().substring(2);
+					status = "0000";
+					smsContent = weatherQuery.queryWeather(cityID, new Date());
 					break;
-				case 3:
-					status = "5001";
-					smsContent = "密码错误";
+				case "003":// 充值
+					String cardID = fSMS.getContent().substring(0, 10);
+					String password = fSMS.getContent().substring(10, 16);
+					int s1 = recharge.recharge(sourceAddress, cardID, password);
+					// 1-充值成功；2-充值卡卡号不存在；3-密码错误；4-充值卡失效
+					switch (s1) {
+					case 1:
+						status = "0000";
+						smsContent = "充值成功";
+						break;
+					case 2:
+						status = "5001";
+						smsContent = "充值卡卡号不存在";
+						break;
+					case 3:
+						status = "5001";
+						smsContent = "密码错误";
+						break;
+					case 4:
+						status = "5001";
+						smsContent = "充值卡失效";
+						break;
+					default:
+						break;
+					}
 					break;
-				case 4:
-					status = "5001";
-					smsContent = "充值卡失效";
+				case "004":// 查询
+					String func = fSMS.getContent().substring(0, 4);
+					if (func.equals("DXJL")) {
+						status = "0000";// 查询短信记录
+						smsContent = queryRecord.SMSHistoryQuery(sourceAddress);
+					} else if (func.equals("JYJL")) {
+						status = "0000";// 查询交易记录
+						smsContent = queryRecord.transactionRecordQuery(sourceAddress);
+					}
 					break;
 				default:
+					status = "0001";
+					smsContent = "未知错误";
 					break;
 				}
-				break;
-			case "004":// 查询
-				String func = fSMS.getContent().substring(0, 4);
-				if (func.equals("DXJL")) {
-					status = "0000";// 查询短信记录
-					smsContent = queryRecord.SMSHistoryQuery(sourceAddress);
-				} else if (func.equals("JYJL")) {
-					status = "0000";// 查询交易记录
-					smsContent = queryRecord.transactionRecordQuery(sourceAddress);
+			} else {// 转发短信
+				if (this.forward(fSMS)) {
+					status = "0000";// 转发成功
+					sourceAddress = "00000000000";
+					smsContent = "向" + targetAddress + "发送短信成功。";
+				} else {
+					status = "0001";// 转发失败
+					sourceAddress = "00000000000";
+					smsContent = "向" + targetAddress + "发送短信失败。";
 				}
-				break;
-			default:
-				status = "0001";
-				smsContent = "未知错误";
-				break;
 			}
-		} else {// 转发短信
-			if (this.forward(fSMS)) {
-				status = "0000";// 转发成功
-				sourceAddress = "00000000000";
-				smsContent = "向" + targetAddress + "发送短信成功。";
-			} else {
-				status = "0001";// 转发失败
-				sourceAddress = "00000000000";
-				smsContent = "向" + targetAddress + "发送短信失败。";
-			}
+		} else {
+			status = "3000";
+			smsContent = "用户不存在或状态错误！";
 		}
 		return new FormatSMS(cmd, targetAddress, sourceAddress, status, smsContent);
 	}
@@ -201,32 +211,30 @@ public class SMSHandleService {
 	 * @return true:转发成功
 	 */
 	private boolean forward(FormatSMS formatSMS) {
-		UserDaoInter udao = new UserDao();
-		SPDaoInter spdao = new SPDao();
-		SMSHistoryDaoInter smsHistoryDao = new SMSHistoryDao();
-		boolean status = false;
+		boolean s = false;
 		SP sp = spdao.getSP("000");
+		// ---------------
 		String receiverID = formatSMS.getTargetAddress();
+		String senderID = formatSMS.getSourceAddress();
 		User reveicer = udao.getUser(receiverID);
+		User sender = udao.getUser(senderID);
 		float balance = udao.getUser(formatSMS.getSourceAddress()).getBalance();// 余额充足
-		if (reveicer != null && (balance - sp.getCharge()) >= 0) {
-			status = new SendSocket(formatSMS).send();
-			// 扣费
-			String senderID = formatSMS.getSourceAddress();
-			User sender = udao.getUser(senderID);
-			balance = sender.getBalance() - sp.getCharge();
+		if (reveicer != null && (balance - sp.getCharge()) > 1) {
+			s = new SendSocket(formatSMS).send();
+			// ---------- 扣费
+			balance = balance - sp.getCharge();
 			sender.setBalance(balance);
 			while (!udao.updateUser(sender.getUserID(), sender)) {
 			}
-			// 添加历史记录
+			// -------添加历史记录
 			SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Date(), formatSMS.getContent());
 			while (!smsHistoryDao.addSMSHistory(smsHistory)) {
 			}
-			status = true;
+			s = true;
 		} else {
-			status = false;
+			s = false;
 		}
-		return status;
+		return s;
 	}
 
 	/**
