@@ -2,6 +2,12 @@ package com.jsyunsi.mobile_manager.main;
 
 import com.jsyunsi.mobile_manager.services.ListenService;
 
+/**
+ * 服务器启动
+ * 
+ * @author Administrator
+ *
+ */
 public class start {
 
 	public static void main(String[] args) {

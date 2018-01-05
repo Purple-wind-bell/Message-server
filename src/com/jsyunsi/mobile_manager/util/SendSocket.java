@@ -52,7 +52,7 @@ public class SendSocket {
 			socket = new Socket(IP, PORT);
 			pWriter = new PrintWriter(socket.getOutputStream());
 			String outString = FormatUtil.toStringSMS(sms);
-			outString = outString + "\n";
+//			outString = outString + "\n";
 			pWriter.println(outString);// 发送
 			pWriter.flush();
 			status = true;
