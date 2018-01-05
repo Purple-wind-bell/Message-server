@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.jsyunsi.mobile_manager.util.FormatUtil;
+import com.jsyunsi.mobile_manager.util.SendSocket;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
 
 /**
@@ -63,11 +65,12 @@ public class ListenService extends Thread {
 			String insms = null;
 			try {
 				BufferedReader bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				insms = bReader.readLine();
-				// 格式化信息
-				FormatSMS inFormatSMS = FormatService.toFormatSMS(insms);
-				FormatSMS outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
-				new SendSocket(outFormatSMS);// 发送回复短信
+				while ((insms = bReader.readLine()) != null) {
+					// 格式化信息
+					FormatSMS inFormatSMS = FormatUtil.toFormatSMS(insms);
+					FormatSMS outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
+					new SendSocket(outFormatSMS).send();// 发送回复短信
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

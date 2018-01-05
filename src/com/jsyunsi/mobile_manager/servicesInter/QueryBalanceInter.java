@@ -5,7 +5,7 @@ package com.jsyunsi.mobile_manager.servicesInter;
  * 
  *
  */
-public interface BalanceQueryInter {
+public interface QueryBalanceInter {
 
 	/**
 	 * 根据用户ID查询余额

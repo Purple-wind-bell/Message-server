@@ -1,4 +1,4 @@
-package com.jsyunsi.mobile_manager.services;
+package com.jsyunsi.mobile_manager.util;
 
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
 
@@ -8,9 +8,9 @@ import com.jsyunsi.mobile_manager.vo.FormatSMS;
  * @author Administrator
  *
  */
-public class FormatService {
+public class FormatUtil {
 
-	private FormatService() {
+	private FormatUtil() {
 
 	}
 

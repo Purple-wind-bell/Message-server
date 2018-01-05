@@ -76,8 +76,8 @@ public class TransactionRecord {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		String string = "用户:" + userID + "\nSP服务id:" + spID + "\n业务服务费: " + Float.toString(charge) + "\n交易时间: "
-				+ tradingTime.toString() + "\n交易备注: " + remarks;
+		String string = "用户:" + userID + "		SP服务id:" + spID + "	业务服务费: " + Float.toString(charge) + "		交易时间: "
+				+ tradingTime.toString() + "	交易备注: " + remarks;
 		return string;
 	}
 

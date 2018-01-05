@@ -2,9 +2,9 @@ package com.jsyunsi.mobile_manager.services;
 
 import java.util.Date;
 
-import com.jsyunsi.mobile_manager.servicesInter.WeatherQueryInter;
+import com.jsyunsi.mobile_manager.servicesInter.QueryWeatherInter;
 
-public class WeatherQueryService implements WeatherQueryInter {
+public class QueryWeatherService implements QueryWeatherInter {
 
 	@Override
 	public String queryWeather(String cityID, Date date) {

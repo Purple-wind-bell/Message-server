@@ -7,10 +7,11 @@ import com.jsyunsi.mobile_manager.dao.UserDao;
 import com.jsyunsi.mobile_manager.daoInter.SMSHistoryDaoInter;
 import com.jsyunsi.mobile_manager.daoInter.SPDaoInter;
 import com.jsyunsi.mobile_manager.daoInter.UserDaoInter;
-import com.jsyunsi.mobile_manager.servicesInter.BalanceQueryInter;
+import com.jsyunsi.mobile_manager.servicesInter.QueryBalanceInter;
 import com.jsyunsi.mobile_manager.servicesInter.QueryRecordInter;
 import com.jsyunsi.mobile_manager.servicesInter.RechargeInter;
-import com.jsyunsi.mobile_manager.servicesInter.WeatherQueryInter;
+import com.jsyunsi.mobile_manager.servicesInter.QueryWeatherInter;
+import com.jsyunsi.mobile_manager.util.SendSocket;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
 import com.jsyunsi.mobile_manager.vo.SMSHistory;
 import com.jsyunsi.mobile_manager.vo.SP;
@@ -23,10 +24,10 @@ import com.jsyunsi.mobile_manager.vo.User;
  *
  */
 public class SMSHandleService {
-	private BalanceQueryInter bQuery = new BalanceQuery();
+	private QueryBalanceInter bQuery = new QueryBalanceService();
 	private LoginRegisterService lrService = new LoginRegisterService();
 	private RechargeInter recharge = new RechargeService();
-	private WeatherQueryInter weatherQuery = new WeatherQueryService();
+	private QueryWeatherInter weatherQuery = new QueryWeatherService();
 	private QueryRecordInter queryRecord = null;
 
 	/**
@@ -180,10 +181,15 @@ public class SMSHandleService {
 				break;
 			}
 		} else {// 转发短信
-			this.forward(fSMS);
-			status = "0000";
-			sourceAddress = "00000000000";
-			smsContent = "向" + targetAddress + "发送短信成功。";
+			if (this.forward(fSMS)) {
+				status = "0000";// 转发成功
+				sourceAddress = "00000000000";
+				smsContent = "向" + targetAddress + "发送短信成功。";
+			} else {
+				status = "0001";// 转发失败
+				sourceAddress = "00000000000";
+				smsContent = "向" + targetAddress + "发送短信失败。";
+			}
 		}
 		return new FormatSMS(cmd, targetAddress, sourceAddress, status, smsContent);
 	}
@@ -204,24 +210,19 @@ public class SMSHandleService {
 		User reveicer = udao.getUser(receiverID);
 		float balance = udao.getUser(formatSMS.getSourceAddress()).getBalance();// 余额充足
 		if (reveicer != null && (balance - sp.getCharge()) >= 0) {
-			boolean onLine = reveicer.isOnlineStatus();
-			if (onLine) {
-				new SendSocket(formatSMS).start();
-				// 扣费
-				String senderID = formatSMS.getSourceAddress();
-				User sender = udao.getUser(senderID);
-				balance = sender.getBalance() - sp.getCharge();
-				sender.setBalance(balance);
-				while (!udao.updateUser(sender.getUserID(), sender)) {
-				}
-				// 添加历史记录
-				SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Date(), formatSMS.getContent());
-				while (!smsHistoryDao.addSMSHistory(smsHistory)) {
-				}
-				status = true;
-			} else {
-				status = false;
+			status = new SendSocket(formatSMS).send();
+			// 扣费
+			String senderID = formatSMS.getSourceAddress();
+			User sender = udao.getUser(senderID);
+			balance = sender.getBalance() - sp.getCharge();
+			sender.setBalance(balance);
+			while (!udao.updateUser(sender.getUserID(), sender)) {
 			}
+			// 添加历史记录
+			SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Date(), formatSMS.getContent());
+			while (!smsHistoryDao.addSMSHistory(smsHistory)) {
+			}
+			status = true;
 		} else {
 			status = false;
 		}

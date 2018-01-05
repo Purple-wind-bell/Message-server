@@ -65,8 +65,8 @@ public class SMSHistory {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		String string = "发件人:" + senderID + "\n收件人:" + receiverID + "\n发件时间:" + sendTime + "\n短信内容 :"
-				+ message + "\n";
+		String string = "发件人:" + senderID + "		收件人:" + receiverID + "		发件时间:" + sendTime + "		短信内容 :"
+				+ message;
 		return string;
 	}
 

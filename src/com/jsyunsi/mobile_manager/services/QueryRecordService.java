@@ -11,7 +11,7 @@ import com.jsyunsi.mobile_manager.servicesInter.QueryRecordInter;
 import com.jsyunsi.mobile_manager.vo.SMSHistory;
 import com.jsyunsi.mobile_manager.vo.TransactionRecord;
 
-public class RecordQueryService implements QueryRecordInter {
+public class QueryRecordService implements QueryRecordInter {
 	TransactionRecordDaoInter transactionRecord = new TransactionRecordDao();
 	SMSHistoryDaoInter SMSRecord = new SMSHistoryDao();
 

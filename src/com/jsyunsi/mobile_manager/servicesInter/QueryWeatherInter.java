@@ -7,7 +7,7 @@ import java.util.Date;
  * 
  *
  */
-public interface WeatherQueryInter {
+public interface QueryWeatherInter {
 
 	/**
 	 * 查询天气

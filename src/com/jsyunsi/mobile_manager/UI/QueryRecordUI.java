@@ -62,9 +62,8 @@ public class QueryRecordUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String options[] = { "查看发送的短信", "查看收到的短信" };
-				int i = JOptionPane.showOptionDialog(QueryRecordUI.this,
-						"选择查看发送/接收的短信：", "查看短信", JOptionPane.OK_CANCEL_OPTION,
-						JOptionPane.QUESTION_MESSAGE, null, options, "查看发送的短信");
+				int i = JOptionPane.showOptionDialog(QueryRecordUI.this, "选择查看发送/接收的短信：", "查看短信",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, "查看发送的短信");
 
 				if (i != JOptionPane.CLOSED_OPTION) {
 
@@ -77,7 +76,7 @@ public class QueryRecordUI extends JFrame {
 					case 1:
 						new QuerySMSReceiveRecordUI().querysms();
 						break;
-						
+
 					default:
 
 						break;
@@ -94,7 +93,7 @@ public class QueryRecordUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				new SendMessageUI().sendmessage();
+				// new SendMessageUI().sendmessage();
 			}
 		});
 
@@ -109,6 +108,5 @@ public class QueryRecordUI extends JFrame {
 		});
 
 	}
-
 
 }

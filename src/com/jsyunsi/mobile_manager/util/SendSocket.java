@@ -1,5 +1,6 @@
-package com.jsyunsi.mobile_manager.services;
+package com.jsyunsi.mobile_manager.util;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -13,7 +14,7 @@ import com.jsyunsi.mobile_manager.vo.FormatSMS;
  * @author Administrator
  *
  */
-public class SendSocket extends Thread {
+public class SendSocket {
 	/** 创建端口 */
 	Socket socket = null;
 	/** 端口号 */
@@ -40,17 +41,33 @@ public class SendSocket extends Thread {
 		IP = uDao.getUser(targetAddress).getUserIP();
 	}
 
-	@Override
-	public void run() {
+	/**
+	 * 短信发送
+	 * 
+	 * @return true-发送成功；false-发送失败，对方可能不在线
+	 */
+	public boolean send() {
+		boolean status = false;
 		try {
 			socket = new Socket(IP, PORT);
 			pWriter = new PrintWriter(socket.getOutputStream());
-			String outString = FormatService.toStringSMS(sms);
+			String outString = FormatUtil.toStringSMS(sms);
 			outString = outString + "\n";
 			pWriter.println(outString);// 发送
 			pWriter.flush();
+			status = true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			status = false;
+		} finally {
+			try {
+				pWriter.close();// 关闭连接
+				socket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		return status;
 	}
 }
