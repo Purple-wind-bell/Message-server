@@ -17,14 +17,14 @@ import com.jsyunsi.mobile_manager.vo.FormatSMS;
  * @author 紫风铃
  *
  */
-public class ServerService extends Thread {
+public class ListenService extends Thread {
 	/** 创建端口 */
 	ServerSocket server = null;
 	/** 端口号 */
 	int PORT = 5600;
 	Socket socket = null;
 
-	public ServerService() {
+	public ListenService() {
 		try {
 			server = new ServerSocket(PORT);
 		} catch (IOException e) {
