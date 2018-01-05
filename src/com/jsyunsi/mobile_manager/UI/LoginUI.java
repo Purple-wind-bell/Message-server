@@ -15,9 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class LoginUI extends JFrame {
 
-	void login() {
+	public void login() {
 		Container c = this.getContentPane();
 		// JPanel c = (JPanel) this.getContentPane();
 		// c.setOpaque(false);

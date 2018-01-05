@@ -24,17 +24,17 @@ public class Server extends Thread {
 	}
 
 	public void run() {
-		// while (true) {
-		System.out.println("Listenning...");
-		try {
-			socket = server.accept();// 每个请求交给一个线程去处理
-			ServerThread th = new ServerThread(socket);
-			th.start();
-			sleep(1000);
-		} catch (Exception e) {
-			e.printStackTrace();
+		while (true) {
+			System.out.println("Listenning...");
+			try {
+				socket = server.accept();// 每个请求交给一个线程去处理
+				ServerThread th = new ServerThread(socket);
+				th.start();
+				sleep(1000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		// }
 	}
 
 	class ServerThread extends Thread {

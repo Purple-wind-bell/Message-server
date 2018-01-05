@@ -11,7 +11,6 @@ import com.jsyunsi.mobile_manager.servicesInter.BalanceQueryInter;
 import com.jsyunsi.mobile_manager.servicesInter.QueryRecordInter;
 import com.jsyunsi.mobile_manager.servicesInter.RechargeInter;
 import com.jsyunsi.mobile_manager.servicesInter.WeatherQueryInter;
-import com.jsyunsi.mobile_manager.util.FormatService;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
 import com.jsyunsi.mobile_manager.vo.SMSHistory;
 import com.jsyunsi.mobile_manager.vo.SP;
@@ -207,9 +206,7 @@ public class SMSHandleService {
 		if (reveicer != null && (balance - sp.getCharge()) >= 0) {
 			boolean onLine = reveicer.isOnlineStatus();
 			if (onLine) {
-				String sms = FormatService.toStringSMS(formatSMS);// 转发信息
-				String ip = reveicer.getUserIP();
-				new SMSForwardSocket(ip, sms).start();
+				new SendSocket(formatSMS).start();
 				// 扣费
 				String senderID = formatSMS.getSourceAddress();
 				User sender = udao.getUser(senderID);

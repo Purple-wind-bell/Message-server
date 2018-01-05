@@ -1,14 +1,11 @@
-package com.jsyunsi.mobile_manager.main;
+package com.jsyunsi.mobile_manager.services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.jsyunsi.mobile_manager.services.SMSHandleService;
-import com.jsyunsi.mobile_manager.util.FormatService;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
 
 /**
@@ -64,18 +61,13 @@ public class ListenService extends Thread {
 		public void run() {
 			/** 接收的SMS */
 			String insms = null;
-			/** 发送的SMS */
-			String outsms = null;
 			try {
-				PrintWriter pWriter = new PrintWriter(socket.getOutputStream());
 				BufferedReader bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				insms = bReader.readLine();
 				// 格式化信息
 				FormatSMS inFormatSMS = FormatService.toFormatSMS(insms);
-				FormatSMS outFormatSMS = new SMSHandleService().process(inFormatSMS);
-				outsms = FormatService.toStringSMS(outFormatSMS);
-				pWriter.println(outsms);
-				pWriter.flush();
+				FormatSMS outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
+				new SendSocket(outFormatSMS);// 发送回复短信
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
