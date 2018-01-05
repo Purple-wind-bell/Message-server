@@ -38,7 +38,7 @@ public class TransactionRecordDao implements TransactionRecordDaoInter {
 	}
 
 	@Override
-	public ArrayList<TransactionRecord> geRecord(String userID) {
+	public ArrayList<TransactionRecord> getRecord(String userID) {
 		// TODO Auto-generated method stub
 		Connection conn = DBUtil.getconnection();
 		String sql = "select * from transaction_record where userID=?";

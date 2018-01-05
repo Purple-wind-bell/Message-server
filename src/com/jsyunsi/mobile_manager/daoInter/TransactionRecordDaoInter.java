@@ -27,5 +27,5 @@ public interface TransactionRecordDaoInter {
 	 *            用户ID
 	 * @return 交易记录的list
 	 */
-	ArrayList<TransactionRecord> geRecord(String userID);
+	ArrayList<TransactionRecord> getRecord(String userID);
 }
