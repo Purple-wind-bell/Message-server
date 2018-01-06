@@ -51,7 +51,7 @@ public class SMSHandleService {
 		String smsContent = "";// 默认返回短信内容
 		String s = fSMS.getContent().substring(0, 2);// 获取服务类型
 		String pass = fSMS.getContent().substring(2, 8);// 获取密码
-		switch (s) {
+		switch (s.toUpperCase()) {
 		case "DL":// 用户登陆
 			if (pass.length() == 6) {
 				String ip = fSMS.getContent().substring(8);// 获取客户端ip
