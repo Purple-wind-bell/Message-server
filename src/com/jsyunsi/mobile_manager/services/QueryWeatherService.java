@@ -16,7 +16,6 @@ public class QueryWeatherService implements QueryWeatherInter {
 	public String queryWeather(String cityID, Date date) {
 		// TODO Auto-generated method stub
 		ArrayList<Weather> list = weatherDao.getRecord(cityID);
-		Weather weather = null;
 		String result = "无天气记录";
 		Iterator<Weather> iterator = list.iterator();
 		while (iterator.hasNext()) {
