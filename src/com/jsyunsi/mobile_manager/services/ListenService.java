@@ -6,12 +6,12 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import com.jsyunsi.mobile_manager.config.Constant;
 import com.jsyunsi.mobile_manager.dao.UserDao;
 import com.jsyunsi.mobile_manager.daoInter.UserDaoInter;
 import com.jsyunsi.mobile_manager.util.FormatUtil;
 import com.jsyunsi.mobile_manager.util.SendSocket;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
-import com.jsyunsi.mobile_manager.vo.User;
 
 /**
  * 服务器服务监听及处理, 数据接收socket，均采用5600端口
@@ -23,7 +23,7 @@ public class ListenService extends Thread {
 	/** 创建端口 */
 	ServerSocket server = null;
 	/** 端口号 */
-	int PORT = 5600;
+	int PORT = Constant.getServerPort();
 	Socket socket = null;
 	UserDaoInter uDao = new UserDao();
 

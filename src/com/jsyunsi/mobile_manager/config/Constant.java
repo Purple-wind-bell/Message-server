@@ -13,6 +13,10 @@ public final class Constant {
 	static String mysqlUser = "root";
 	/** MySQL用户密码 */
 	static String mysqlPasswd = "123456";
+	/** 客户端接收端口 */
+	static int clientPort = 5700;
+	/** 服务器端口 */
+	static int serverPort = 5600;
 
 	private Constant() {
 	}
@@ -42,6 +46,14 @@ public final class Constant {
 	 */
 	public static String getMysqlPasswd() {
 		return mysqlPasswd;
+	}
+
+	public static int getClientPort() {
+		return clientPort;
+	}
+
+	public static int getServerPort() {
+		return serverPort;
 	}
 
 }
