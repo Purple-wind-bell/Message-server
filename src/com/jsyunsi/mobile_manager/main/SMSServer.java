@@ -71,14 +71,15 @@ public class SMSServer extends Thread {
 			FormatSMS outFormatSMS = null;
 			try {
 				BufferedReader bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				while ((insms = bReader.readLine()) != null) {
-					// 格式化信息
-					FormatSMS inFormatSMS = FormatUtil.toFormatSMS(insms);
-					if (inFormatSMS.getCmd().equals("CMD003")) {// 仅处理普通短信
-						outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
-						if (outFormatSMS != null && uDao.getUser(outFormatSMS.getTargetAddress()) != null) {
-							new SendMessage(outFormatSMS).send();// 发送回复短信
-						}
+				while (insms == null) {
+					insms = bReader.readLine();
+				}
+				// 格式化信息
+				FormatSMS inFormatSMS = FormatUtil.toFormatSMS(insms);
+				if (inFormatSMS.getCmd().equals("CMD003")) {// 仅处理普通短信
+					outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
+					if (outFormatSMS != null && uDao.getUser(outFormatSMS.getTargetAddress()) != null) {
+						new SendMessage(outFormatSMS).send();// 发送回复短信
 					}
 				}
 			} catch (IOException e) {

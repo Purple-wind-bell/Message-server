@@ -73,13 +73,16 @@ public class RegisterServer extends Thread {
 			try {
 				bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				pWriter = new PrintWriter(socket.getOutputStream());
-				while ((insms = bReader.readLine()) != null) {
-					// 格式化信息
-					FormatSMS inFormatSMS = FormatUtil.toFormatSMS(insms);
-					if (inFormatSMS.getCmd().equals("CMD001") || inFormatSMS.getCmd().equals("CMD002")) {// 仅处理登录注册注销短信
-						outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
-						pWriter.println(FormatUtil.toStringSMS(outFormatSMS));// 发送回复短信
-					}
+				while (insms == null) {
+					insms = bReader.readLine();
+				}
+				System.out.println("服务器接收信息：" + insms.toString());
+				// 格式化信息
+				FormatSMS inFormatSMS = FormatUtil.toFormatSMS(insms);
+				if (inFormatSMS.getCmd().equals("CMD001") || inFormatSMS.getCmd().equals("CMD002")) {// 仅处理登录注册注销短信
+					System.out.println(inFormatSMS.toString());
+					outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
+					pWriter.println(FormatUtil.toStringSMS(outFormatSMS));// 发送回复短信
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
