@@ -11,7 +11,6 @@ import com.jsyunsi.mobile_manager.servicesInter.QueryBalanceInter;
 import com.jsyunsi.mobile_manager.servicesInter.QueryRecordInter;
 import com.jsyunsi.mobile_manager.servicesInter.RechargeInter;
 import com.jsyunsi.mobile_manager.servicesInter.QueryWeatherInter;
-import com.jsyunsi.mobile_manager.util.SendSocket;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
 import com.jsyunsi.mobile_manager.vo.SMSHistory;
 import com.jsyunsi.mobile_manager.vo.SP;
@@ -220,7 +219,7 @@ public class SMSHandleService {
 		User sender = udao.getUser(senderID);
 		float balance = udao.getUser(formatSMS.getSourceAddress()).getBalance();// 余额充足
 		if (reveicer != null && (balance - sp.getCharge()) > 1) {
-			s = new SendSocket(formatSMS).send();
+			s = new SendMessage(formatSMS).send();
 			// ---------- 扣费
 			balance = balance - sp.getCharge();
 			sender.setBalance(balance);
