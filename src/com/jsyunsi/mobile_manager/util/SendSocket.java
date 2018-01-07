@@ -19,7 +19,7 @@ public class SendSocket {
 	/** 创建端口 */
 	Socket socket = null;
 	/** 端口号 */
-	int PORT = Constant.getClientPort();
+	int PORT = Constant.getClientSMSPort();
 	/** IP地址 */
 	String IP = "127.0.0.1";
 	/** SMS */
