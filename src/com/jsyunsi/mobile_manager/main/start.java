@@ -1,8 +1,5 @@
 package com.jsyunsi.mobile_manager.main;
 
-import com.jsyunsi.mobile_manager.services.RegisterServer;
-import com.jsyunsi.mobile_manager.services.SMSServer;
-
 /**
  * 服务器启动
  * 
