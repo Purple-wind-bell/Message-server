@@ -10,7 +10,6 @@ import com.jsyunsi.mobile_manager.config.Constant;
 import com.jsyunsi.mobile_manager.dao.UserDao;
 import com.jsyunsi.mobile_manager.daoInter.UserDaoInter;
 import com.jsyunsi.mobile_manager.util.FormatUtil;
-import com.jsyunsi.mobile_manager.util.SendSocket;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
 
 /**
@@ -76,7 +75,7 @@ public class SMSServer extends Thread {
 					if (inFormatSMS.getCmd().equals("CMD003")) {// 仅处理普通短信
 						outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
 						if (outFormatSMS != null && uDao.getUser(outFormatSMS.getTargetAddress()) != null) {
-							new SendSocket(outFormatSMS).send();// 发送回复短信
+							new SendMessage(outFormatSMS).send();// 发送回复短信
 						}
 					}
 				}

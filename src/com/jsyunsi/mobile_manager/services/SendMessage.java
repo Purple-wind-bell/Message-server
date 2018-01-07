@@ -1,4 +1,4 @@
-package com.jsyunsi.mobile_manager.util;
+package com.jsyunsi.mobile_manager.services;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,6 +7,7 @@ import java.net.Socket;
 import com.jsyunsi.mobile_manager.config.Constant;
 import com.jsyunsi.mobile_manager.dao.UserDao;
 import com.jsyunsi.mobile_manager.daoInter.UserDaoInter;
+import com.jsyunsi.mobile_manager.util.FormatUtil;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
 
 /**
@@ -15,7 +16,7 @@ import com.jsyunsi.mobile_manager.vo.FormatSMS;
  * @author Administrator
  *
  */
-public class SendSocket {
+public class SendMessage {
 	/** 创建端口 */
 	Socket socket = null;
 	/** 端口号 */
@@ -35,7 +36,7 @@ public class SendSocket {
 	 * @param formatSMS
 	 *            短信
 	 */
-	public SendSocket(FormatSMS formatSMS) {
+	public SendMessage(FormatSMS formatSMS) {
 		super();
 		this.sms = formatSMS;
 		String targetAddress = formatSMS.getTargetAddress();
