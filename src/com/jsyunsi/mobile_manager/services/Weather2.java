@@ -52,17 +52,24 @@ public class Weather2 {
 				list.add(map);
 			}
 		} catch (SocketTimeoutException e) {
-			System.out.println("���ӳ�ʱ");
+//			System.out.println("���ӳ�ʱ");
 		} catch (FileNotFoundException e) {
-			System.out.println("�����ļ�����");
+//			System.out.println("�����ļ�����");
 		}
 
 		return list;
 
 	}
 
+	/**
+	 * 
+	 * @param Cityid
+	 * @return
+	 * @throws IOException
+	 * @throws NullPointerException
+	 */
 	public static Map<String, Object> getTodayWeather1(String Cityid) throws IOException, NullPointerException {
-		// ������������̨��API
+		// API
 		URL url = new URL("http://www.weather.com.cn/data/sk/" + Cityid + ".html");
 		URLConnection connectionData = url.openConnection();
 		connectionData.setConnectTimeout(1000);

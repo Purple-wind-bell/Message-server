@@ -22,7 +22,7 @@ public class RechargeService implements RechargeInter {
 	@Override
 	public int recharge(String userID, String cardID, String password) {
 		// TODO Auto-generated method stub
-		int status = 4;
+		int status = 3;// 默认密码错误
 		int s = rCardDao.checkRechargeCard(cardID, password);// 检测充值卡
 		switch (s) {
 		case 1:
@@ -55,11 +55,13 @@ public class RechargeService implements RechargeInter {
 				record.setRemarks("账号充值" + Float.toString(rCardDao.getDenomination(cardID)) + "元");
 				while (!recordDao.addRecord(record)) {
 				}
+				status = 1;
 			} else {
 				status = 4;
 			}
 			break;
 		default:
+			status = 3;
 			break;
 		}
 		return status;

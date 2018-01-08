@@ -150,7 +150,7 @@ public class SMSHandleService {
 					if (udao.getUser(sourceAddress).getBalance() > 0) {// 余额充足
 						String cityID = fSMS.getContent().substring(2);
 						status = "0000";
-						smsContent = weatherQuery.queryWeather(sourceAddress, cityID, new Date());
+						smsContent = weatherQuery.queryWeather(cityID, new Date());
 						// - 扣费
 						new Charging().charge("002", sourceAddress);
 					} else {
@@ -247,7 +247,7 @@ public class SMSHandleService {
 		User reveicer = udao.getUser(receiverID);
 		if (reveicer != null) {
 			s = new SendMessage(formatSMS).send();// 转发短信
-			System.out.println("已经向" + receiverID + "转发短信");
+			// System.out.println("已经向" + receiverID + "转发短信");
 			s = true;
 		} else {
 			s = false;
