@@ -2,7 +2,6 @@ package com.jsyunsi.mobile_manager.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 import java.util.Properties;
 
 /**
@@ -13,21 +12,22 @@ import java.util.Properties;
  */
 public final class Constant {
 	/** MySQL数据库连接 */
-	static String mysqlUrl;
+	private static String mysqlUrl;
 	/** MySQL用户 */
-	static String mysqlUser;
+	private static String mysqlUser;
 	/** MySQL用户密码 */
-	static String mysqlPasswd;
+	private static String mysqlPasswd;
 	/** 客户端普通短信接收端口 */
-	static int clientSMSPort;
+	private static int clientSMSPort;
 	/** 服务器普通短信收发端口 */
-	static int serverSMSPort;
+	private static int serverSMSPort;
 	/** 服务器注册登录端口 */
-	static int registerPort;
+	private static int registerPort;
 
 	static {
 		Properties p = new Properties();
-		InputStream in = Constant.class.getClassLoader().getResourceAsStream("mobile.properties");
+//		com/jsyunsi/mobile_manager/config/
+		InputStream in = Constant.class.getClassLoader().getResourceAsStream("com/jsyunsi/mobile_manager/config/mobile.properties");
 		try {
 			p.load(in);
 			in.close();
