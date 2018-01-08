@@ -4,17 +4,22 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import com.jsyunsi.mobile_manager.services.QueryRecordService;
+import com.jsyunsi.mobile_manager.servicesInter.QueryRecordInter;
 
 public class QueryTransactionUI extends JFrame {
+	private String sourceAddress;
+	private QueryRecordInter queryRecord = new QueryRecordService();
+	private JTextArea jta1 = new JTextArea(28, 30);
+	private JTextField jtf1 = new JTextField(25);
 
 	void querytransaction() {
 		Container c = this.getContentPane();
@@ -27,11 +32,9 @@ public class QueryTransactionUI extends JFrame {
 		JPanel jp4 = new JPanel();
 		// 输入手机号
 		JLabel jl1 = new JLabel("手机号：");
-		final JTextField jtf1 = new JTextField(25);
 		// 显示查询内容
 		JLabel jl2 = new JLabel(
 				"交易记录：                                                                                        ");
-		JTextArea jta1 = new JTextArea(28, 30);
 		// 按钮
 		JButton jb1 = new JButton("查询");
 		JButton jb2 = new JButton("返回");
@@ -57,29 +60,28 @@ public class QueryTransactionUI extends JFrame {
 		this.setDefaultCloseOperation(QueryTransactionUI.EXIT_ON_CLOSE);
 
 		// 输入的手机号控制为11位
-		jtf1.addKeyListener(new KeyListener() {
+		jtf1.addKeyListener(new KeyAdapter() {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
 				// TODO Auto-generated method stub
-				String s = jtf1.getText();
+				String s = jtf1.getText().toString().trim();
 				if (s.length() >= 11) {
 					e.consume();
 				}
+				sourceAddress = s;
 			}
+		});
+
+		// 点击查询按钮
+		jb1.addActionListener(new ActionListener() {
 
 			@Override
-			public void keyPressed(KeyEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-
+				String record = queryRecord.transactionRecordQuery(sourceAddress);
+				jta1.setText(record.toString());
 			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
 		});
 
 		// 点击返回按钮 返回查询系统界面

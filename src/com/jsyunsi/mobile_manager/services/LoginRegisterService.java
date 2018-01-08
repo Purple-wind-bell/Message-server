@@ -55,9 +55,8 @@ public class LoginRegisterService {
 			status = false;// 注销失败
 		} else {
 			user.setOnlineStatus(false);
-			user.setUserIP(null);
-			userDao.updateUser(userID, user);
-			status = true;// 注销成功
+			user.setUserIP("0.0.0.0");
+			status = userDao.updateUser(userID, user); // 注销成功
 		}
 		return status;
 	}
@@ -71,11 +70,15 @@ public class LoginRegisterService {
 	 */
 	public boolean registerUser(String userID, String passwd) {
 		// TODO Auto-generated method stub
+		boolean status = false;
 		UserDaoInter userdao = new UserDao();
 		User user = userdao.getUser(userID);
-		user.setUserID(userID);
-		user.setPassword(passwd);
-		user.setBalance(1);
-		return userdao.addUSer(user);
+		if (user == null) {
+			user = new User(userID, "0.0.0.0", false, false, 1, true, passwd);
+			status = userdao.addUSer(user);
+		} else {
+			status = false;
+		}
+		return status;
 	}
 }
