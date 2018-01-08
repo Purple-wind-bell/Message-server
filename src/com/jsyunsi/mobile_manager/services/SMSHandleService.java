@@ -131,28 +131,44 @@ public class SMSHandleService {
 		String sourceAddress = fSMS.getSourceAddress();
 		User sender = udao.getUser(sourceAddress);
 		if (sender != null && sender.isOnlineStatus() && !sender.isFrozenStatus()) {// 发件人在数据库中以及发件人状态检查
-			if (targetAddress.substring(0, 8).equals("0000000")) {
+			if (targetAddress.substring(0, 8).equals("00000000")) {
 				// SP服务
 				switch (targetAddress.substring(8, 11)) {
 				case "001":// 余额查询
-					float balance = bQuery.queryBalance(sourceAddress);
-					status = "0000";
-					smsContent = "当前手机余额：" + Float.toString(balance) + "元";
+					if (udao.getUser(sourceAddress).getBalance() > 0) {// 余额充足
+						float balance = bQuery.queryBalance(sourceAddress);
+						status = "0000";
+						smsContent = "当前手机余额：" + Float.toString(balance) + "元";
+						// - 扣费
+						new Charging().charge("001", sourceAddress);
+					} else {
+						status = "0001";
+						smsContent = "余额不足！";
+					}
 					break;
 				case "002":// 天气查询
-					String cityID = fSMS.getContent().substring(2);
-					status = "0000";
-					smsContent = weatherQuery.queryWeather(cityID, new Date());
+					if (udao.getUser(sourceAddress).getBalance() > 0) {// 余额充足
+						String cityID = fSMS.getContent().substring(2);
+						status = "0000";
+						smsContent = weatherQuery.queryWeather(sourceAddress, cityID, new Date());
+						// - 扣费
+						new Charging().charge("002", sourceAddress);
+					} else {
+						status = "0001";
+						smsContent = "余额不足！";
+					}
 					break;
 				case "003":// 充值
 					String cardID = fSMS.getContent().substring(0, 10);
-					String password = fSMS.getContent().substring(10, 16);
+					String password = fSMS.getContent().substring(11, 17);
 					int s1 = recharge.recharge(sourceAddress, cardID, password);
 					// 1-充值成功；2-充值卡卡号不存在；3-密码错误；4-充值卡失效
 					switch (s1) {
 					case 1:
 						status = "0000";
 						smsContent = "充值成功";
+						// - 扣费
+						new Charging().charge("003", sourceAddress);
 						break;
 					case 2:
 						status = "5001";
@@ -171,13 +187,20 @@ public class SMSHandleService {
 					}
 					break;
 				case "004":// 查询
-					String func = fSMS.getContent().substring(0, 4);
-					if (func.equals("DXJL")) {
-						status = "0000";// 查询短信记录
-						smsContent = queryRecord.SMSHistoryQuery(sourceAddress);
-					} else if (func.equals("JYJL")) {
-						status = "0000";// 查询交易记录
-						smsContent = queryRecord.transactionRecordQuery(sourceAddress);
+					if (udao.getUser(sourceAddress).getBalance() > 0) {// 余额充足
+						String func = fSMS.getContent().substring(0, 4);
+						if (func.equals("DXJL")) {
+							status = "0000";// 查询短信记录
+							smsContent = queryRecord.SMSHistoryQuery(sourceAddress);
+						} else if (func.equals("JYJL")) {
+							status = "0000";// 查询交易记录
+							smsContent = queryRecord.transactionRecordQuery(sourceAddress);
+						}
+						// - 扣费
+						new Charging().charge("004", sourceAddress);
+					} else {
+						status = "0001";
+						smsContent = "余额不足！";
 					}
 					break;
 				default:
@@ -186,14 +209,22 @@ public class SMSHandleService {
 					break;
 				}
 			} else {// 转发短信
-				if (this.forward(fSMS)) {
-					status = "0000";// 转发成功
-					sourceAddress = "00000000000";
-					smsContent = "向" + targetAddress + "发送短信成功。";
+				System.out.println("转发短信处理");
+				if (udao.getUser(sourceAddress).getBalance() > 0) {// 余额充足
+					if (this.forward(fSMS)) {
+						status = "0000";// 转发成功
+						sourceAddress = "00000000000";
+						smsContent = "向" + targetAddress + "发送短信成功。";
+						// - 扣费
+					} else {
+						status = "0001";// 转发失败
+						sourceAddress = "00000000000";
+						smsContent = "向" + targetAddress + "发送短信失败。";
+					}
+					new Charging().charge("000", sourceAddress);
 				} else {
-					status = "0001";// 转发失败
-					sourceAddress = "00000000000";
-					smsContent = "向" + targetAddress + "发送短信失败。";
+					status = "0001";
+					smsContent = "余额不足！";
 				}
 			}
 		} else {
@@ -211,27 +242,19 @@ public class SMSHandleService {
 	 */
 	private boolean forward(FormatSMS formatSMS) {
 		boolean s = false;
-		SP sp = spdao.getSP("000");
-		// ---------------
 		String receiverID = formatSMS.getTargetAddress();
 		String senderID = formatSMS.getSourceAddress();
 		User reveicer = udao.getUser(receiverID);
-		User sender = udao.getUser(senderID);
-		float balance = udao.getUser(formatSMS.getSourceAddress()).getBalance();// 余额充足
-		if (reveicer != null && (balance - sp.getCharge()) > 1) {
-			s = new SendMessage(formatSMS).send();
-			// ---------- 扣费
-			balance = balance - sp.getCharge();
-			sender.setBalance(balance);
-			while (!udao.updateUser(sender.getUserID(), sender)) {
-			}
-			// -------添加历史记录
-			SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Date(), formatSMS.getContent());
-			while (!smsHistoryDao.addSMSHistory(smsHistory)) {
-			}
+		if (reveicer != null) {
+			s = new SendMessage(formatSMS).send();// 转发短信
+			System.out.println("已经向" + receiverID + "转发短信");
 			s = true;
 		} else {
 			s = false;
+		}
+		// -------添加短信历史记录
+		SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Date(), formatSMS.getContent());
+		while (!smsHistoryDao.addSMSHistory(smsHistory)) {
 		}
 		return s;
 	}
@@ -249,7 +272,7 @@ public class SMSHandleService {
 		String targetAddress = inFormatSMS.getTargetAddress();
 		String sourceAddress = inFormatSMS.getSourceAddress();
 		String status = "0001";// 默认返回状态码
-		String smsContent = "";// 默认返回短信内容
+		String smsContent = "0";// 默认返回短信内容
 		switch (inFormatSMS.getCmd()) {
 		case "CMD001":
 			outFormatSMS = this.loginRegisterHandle(inFormatSMS);

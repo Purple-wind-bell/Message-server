@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -14,7 +15,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.jsyunsi.mobile_manager.services.QueryRecordService;
+import com.jsyunsi.mobile_manager.servicesInter.QueryRecordInter;
+
 public class QuerySMSSendRecordUI extends JFrame {
+	private String sourceAddress;
+	private JTextArea jta1 = new JTextArea(28, 30);
+	private QueryRecordInter queryRecord = new QueryRecordService();
+	private JTextField jtf1 = new JTextField(25);
 
 	void querysms() {
 		Container c = this.getContentPane();
@@ -27,11 +35,9 @@ public class QuerySMSSendRecordUI extends JFrame {
 		JPanel jp4 = new JPanel();
 		// 输入手机号
 		JLabel jl1 = new JLabel("手机号：");
-		final JTextField jtf1 = new JTextField(25);
 		// 显示查询内容
 		JLabel jl2 = new JLabel(
 				"已发短信：                                                                                        ");
-		JTextArea jta1 = new JTextArea(28, 30);
 		// 按钮
 		JButton jb1 = new JButton("查询");
 		JButton jb2 = new JButton("返回");
@@ -59,29 +65,17 @@ public class QuerySMSSendRecordUI extends JFrame {
 		this.setResizable(false);
 
 		// 输入的手机号控制为11位
-		jtf1.addKeyListener(new KeyListener() {
+		jtf1.addKeyListener(new KeyAdapter() {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
 				// TODO Auto-generated method stub
-				String s = jtf1.getText();
+				String s = jtf1.getText().toString().trim();
 				if (s.length() >= 11) {
 					e.consume();
 				}
+				sourceAddress = s;
 			}
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
 		});
 
 		// 查询记录
@@ -90,9 +84,9 @@ public class QuerySMSSendRecordUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-
+				String record = queryRecord.SMSHistoryQueryBySender(sourceAddress);
+				jta1.setText(record.toString());
 			}
-
 		});
 
 		// 点击返回按钮 返回查询系统界面
@@ -104,7 +98,6 @@ public class QuerySMSSendRecordUI extends JFrame {
 				dispose();
 			}
 		});
-
 	}
 
 }

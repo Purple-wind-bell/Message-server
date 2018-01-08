@@ -15,14 +15,15 @@ import com.jsyunsi.mobile_manager.vo.TransactionRecord;
 import com.jsyunsi.mobile_manager.vo.User;
 
 public class RechargeService implements RechargeInter {
+	private UserDaoInter uDao = new UserDao();
+	private RechargeableCardDaoInter rCardDao = new RechargeableCardDao();
+	private SPDaoInter spdao = new SPDao();
 
 	@Override
 	public int recharge(String userID, String cardID, String password) {
 		// TODO Auto-generated method stub
 		int status = 4;
-		UserDaoInter uDao = new UserDao();
-		RechargeableCardDaoInter rCardDao = new RechargeableCardDao();
-		int s = rCardDao.checkRechargeCard(cardID, password);//检测充值卡
+		int s = rCardDao.checkRechargeCard(cardID, password);// 检测充值卡
 		switch (s) {
 		case 1:
 			status = 2;
@@ -34,12 +35,12 @@ public class RechargeService implements RechargeInter {
 			boolean b = rCardDao.getRechargeCardStatus(cardID);
 			if (b) {
 				User user = uDao.getUser(userID);
-				SPDaoInter spdao = new SPDao();
+				SP sp = spdao.getSP("003");
 				float balance = user.getBalance() + rCardDao.getDenomination(cardID);
 				user.setBalance(balance);
-				SP sp = spdao.getSP("003");
+				// 充值以及更新充值卡信息
 				boolean b1 = false;
-				boolean b2 = false;// 充值以及更新充值卡信息
+				boolean b2 = false;
 				while (!b1 || !b2) {
 					b1 = rCardDao.updateRechargeCardStatus(cardID, false);
 					b2 = uDao.updateUser(userID, user);
@@ -53,7 +54,6 @@ public class RechargeService implements RechargeInter {
 				record.setTradingTime(new Date());
 				record.setRemarks("账号充值" + Float.toString(rCardDao.getDenomination(cardID)) + "元");
 				while (!recordDao.addRecord(record)) {
-					
 				}
 			} else {
 				status = 4;

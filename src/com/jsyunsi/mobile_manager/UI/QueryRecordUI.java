@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 public class QueryRecordUI extends JFrame {
 
-	void queryrecord() {
+	public void queryrecord() {
 		Container c = this.getContentPane();
 
 		c.setLayout(new GridLayout(4, 1));
@@ -64,25 +64,17 @@ public class QueryRecordUI extends JFrame {
 				String options[] = { "查看发送的短信", "查看收到的短信" };
 				int i = JOptionPane.showOptionDialog(QueryRecordUI.this, "选择查看发送/接收的短信：", "查看短信",
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, "查看发送的短信");
-
 				if (i != JOptionPane.CLOSED_OPTION) {
-
 					switch (i) {
-
 					case 0:
 						new QuerySMSSendRecordUI().querysms();
 						break;
-
 					case 1:
 						new QuerySMSReceiveRecordUI().querysms();
 						break;
-
 					default:
-
 						break;
-
 					}
-
 				}
 			}
 		});

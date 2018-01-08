@@ -9,6 +9,7 @@ import com.jsyunsi.mobile_manager.dao.UserDao;
 import com.jsyunsi.mobile_manager.daoInter.UserDaoInter;
 import com.jsyunsi.mobile_manager.util.FormatUtil;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
+import com.jsyunsi.mobile_manager.vo.User;
 
 /**
  * 一次性发送socket，发送完成后释放
@@ -39,8 +40,6 @@ public class SendMessage {
 	public SendMessage(FormatSMS formatSMS) {
 		super();
 		this.sms = formatSMS;
-		String targetAddress = formatSMS.getTargetAddress();
-		IP = uDao.getUser(targetAddress).getUserIP();
 	}
 
 	/**
@@ -50,23 +49,31 @@ public class SendMessage {
 	 */
 	public boolean send() {
 		boolean status = false;
-		try {
-			socket = new Socket(IP, PORT);
-			pWriter = new PrintWriter(socket.getOutputStream());
-			String outString = FormatUtil.toStringSMS(sms);
-			pWriter.println(outString);// 发送
-			pWriter.flush();
-			status = true;
-		} catch (Exception e) {
-			e.printStackTrace();
+		String targetAddress = sms.getTargetAddress();
+		User user = uDao.getUser(targetAddress);
+		IP = user.getUserIP();
+		if (IP.equals("0.0.0.0") || user.isFrozenStatus() || !user.isOnlineStatus()) {
 			status = false;
-		} finally {
+		} else {
 			try {
-				pWriter.close();// 关闭连接
-				socket.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				socket = new Socket(IP, PORT);
+				pWriter = new PrintWriter(socket.getOutputStream());
+				String outString = FormatUtil.toStringSMS(sms);
+				pWriter.println(outString);// 发送
+				pWriter.flush();
+				System.out.println("SendMessage:短信已发送");
+				status = true;
+			} catch (Exception e) {
 				e.printStackTrace();
+				status = false;
+			} finally {
+				try {
+					pWriter.close();// 关闭连接
+					socket.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		return status;
