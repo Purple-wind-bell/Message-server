@@ -73,6 +73,7 @@ public class RegisterServer extends Thread {
 			try {
 				bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				pWriter = new PrintWriter(socket.getOutputStream());
+				System.out.println("服务器开始接收");
 				while (insms == null) {
 					insms = bReader.readLine();
 				}
@@ -83,6 +84,7 @@ public class RegisterServer extends Thread {
 					System.out.println(inFormatSMS.toString());
 					outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
 					pWriter.println(FormatUtil.toStringSMS(outFormatSMS));// 发送回复短信
+					pWriter.flush();
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
