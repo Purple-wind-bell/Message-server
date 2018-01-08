@@ -6,11 +6,11 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.jsyunsi.mobile_manager.config.Constant;
 import com.jsyunsi.mobile_manager.dao.UserDao;
 import com.jsyunsi.mobile_manager.daoInter.UserDaoInter;
 import com.jsyunsi.mobile_manager.services.SMSHandleService;
 import com.jsyunsi.mobile_manager.services.SendMessage;
+import com.jsyunsi.mobile_manager.util.Constant;
 import com.jsyunsi.mobile_manager.util.FormatUtil;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
 

@@ -274,7 +274,7 @@ public class SMSHandleService {
 		String status = "0001";// 默认返回状态码
 		String smsContent = "0";// 默认返回短信内容
 		switch (inFormatSMS.getCmd()) {
-		case "CMD001":
+		case "CMD001":// 登录注册
 			outFormatSMS = this.loginRegisterHandle(inFormatSMS);
 			break;
 		case "CMD002":// 注销

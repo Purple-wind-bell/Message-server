@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import com.jsyunsi.mobile_manager.config.Constant;
-
 /**
  * 数据库连接及释放的工具类
  * 
