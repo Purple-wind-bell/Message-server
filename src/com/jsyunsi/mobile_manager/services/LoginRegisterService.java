@@ -71,11 +71,15 @@ public class LoginRegisterService {
 	 */
 	public boolean registerUser(String userID, String passwd) {
 		// TODO Auto-generated method stub
+		boolean status = false;
 		UserDaoInter userdao = new UserDao();
 		User user = userdao.getUser(userID);
-		user.setUserID(userID);
-		user.setPassword(passwd);
-		user.setBalance(1);
-		return userdao.addUSer(user);
+		if (user == null) {
+			user = new User(userID, "127.0.0.1", false, false, 1, true, passwd);
+			status = userdao.addUSer(user);
+		} else {
+			status = false;
+		}
+		return status;
 	}
 }

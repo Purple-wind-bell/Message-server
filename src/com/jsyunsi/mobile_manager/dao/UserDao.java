@@ -59,11 +59,18 @@ public class UserDao implements UserDaoInter {
 		// TODO Auto-generated method stub
 		Connection conn = DBUtil.getconnection();
 		int i = 0;
-		String sql = "update user set userID='" + user.getUserID() + "', userIP='" + user.getUserIP()
-				+ "', onlineStatus='" + user.isOnlineStatus() + "', frozenStatus='" + user.isFrozenStatus()
-				+ "', balances='" + user.getBalance() + "' where userID='" + userID + "'";
+		String sql = "update user set userID= ?, userIP = ?, onlineStatus = ?, frozenStatus = ?,"
+				+ " balance = ?, openSP = ?, password = ? where userID= ?";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, user.getUserID());
+			ps.setString(2, user.getUserIP());
+			ps.setBoolean(3, user.isOnlineStatus());
+			ps.setBoolean(4, user.isFrozenStatus());
+			ps.setFloat(5, user.getBalance());
+			ps.setBoolean(6, user.isOpenSP());
+			ps.setString(7, user.getPassword());
+			ps.setString(8, userID);
 			i = ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
