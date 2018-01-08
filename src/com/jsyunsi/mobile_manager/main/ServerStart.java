@@ -6,7 +6,7 @@ package com.jsyunsi.mobile_manager.main;
  * @author Administrator
  *
  */
-public class start {
+public class ServerStart {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
