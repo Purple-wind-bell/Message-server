@@ -1,10 +1,10 @@
 package com.jsyunsi.mobile_manager.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import com.jsyunsi.mobile_manager.daoInter.SMSHistoryDaoInter;
 import com.jsyunsi.mobile_manager.util.DBUtil;
@@ -22,7 +22,11 @@ public class SMSHistoryDao implements SMSHistoryDaoInter {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, smsHistory.getSenderID());
 			ps.setString(2, smsHistory.getReceiverID());
-			ps.setDate(3, new Date(smsHistory.getSendTime().getTime()));//date:util->sql转换
+
+			ps.setTimestamp(3, smsHistory.getSendTime());
+
+			// ps.setDate(3, new
+			// Date(smsHistory.getSendTime().getTime()));//date:util->sql转换
 			ps.setString(4, smsHistory.getMessage());
 			rows = ps.executeUpdate();
 		} catch (SQLException e) {
@@ -49,7 +53,7 @@ public class SMSHistoryDao implements SMSHistoryDaoInter {
 			while (resultSet.next()) {
 				String senderID1 = resultSet.getString(1);
 				String receiverID = resultSet.getString(2);
-				Date sendTime = resultSet.getDate(3);
+				Timestamp sendTime = resultSet.getTimestamp(3);
 				String message = resultSet.getString(4);
 				smsHistory = new SMSHistory(senderID1, receiverID, sendTime, message);
 				list.add(smsHistory);
@@ -78,7 +82,7 @@ public class SMSHistoryDao implements SMSHistoryDaoInter {
 			while (resultSet.next()) {
 				String senderID = resultSet.getString(1);
 				String receiverID1 = resultSet.getString(2);
-				Date sendTime = resultSet.getDate(3);
+				Timestamp sendTime = resultSet.getTimestamp(3);
 				String message = resultSet.getString(4);
 				smsHistory = new SMSHistory(senderID, receiverID1, sendTime, message);
 				list.add(smsHistory);

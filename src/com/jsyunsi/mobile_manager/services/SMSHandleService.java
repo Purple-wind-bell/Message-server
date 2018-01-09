@@ -1,5 +1,6 @@
 package com.jsyunsi.mobile_manager.services;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import com.jsyunsi.mobile_manager.dao.SMSHistoryDao;
 import com.jsyunsi.mobile_manager.dao.SPDao;
@@ -13,7 +14,6 @@ import com.jsyunsi.mobile_manager.servicesInter.RechargeInter;
 import com.jsyunsi.mobile_manager.servicesInter.QueryWeatherInter;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
 import com.jsyunsi.mobile_manager.vo.SMSHistory;
-import com.jsyunsi.mobile_manager.vo.SP;
 import com.jsyunsi.mobile_manager.vo.User;
 
 /**
@@ -253,7 +253,8 @@ public class SMSHandleService {
 			s = false;
 		}
 		// -------添加短信历史记录
-		SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Date(), formatSMS.getContent());
+		SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Timestamp(new Date().getTime()),
+				formatSMS.getContent());
 		while (!smsHistoryDao.addSMSHistory(smsHistory)) {
 		}
 		return s;

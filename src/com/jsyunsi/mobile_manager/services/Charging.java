@@ -1,5 +1,6 @@
 package com.jsyunsi.mobile_manager.services;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import com.jsyunsi.mobile_manager.dao.SPDao;
@@ -44,7 +45,7 @@ public class Charging {
 			record.setSpID(sp.getID());
 			System.out.println("SP服务费：" + sp.getCharge());
 			record.setCharge(-sp.getCharge());// 金额显示负的，表示扣费
-			record.setTradingTime(new Date());
+			record.setTradingTime(new Timestamp(new Date().getTime()));
 			record.setRemarks("SP服务" + spID + "消费" + Float.toString(sp.getCharge()) + "元");
 			while (!recordDao.addRecord(record)) {
 			}

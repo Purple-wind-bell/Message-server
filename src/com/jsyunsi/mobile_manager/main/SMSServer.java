@@ -74,7 +74,7 @@ public class SMSServer extends Thread {
 				while (insms == null) {
 					insms = bReader.readLine();
 				}
-				System.out.println("接收的SMS:" + insms);
+				// System.out.println("接收的SMS:" + insms);
 				// 格式化信息
 				FormatSMS inFormatSMS = FormatUtil.toFormatSMS(insms);
 				if (inFormatSMS.getCmd().equals("CMD003")) {// 仅处理普通短信

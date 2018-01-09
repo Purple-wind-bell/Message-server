@@ -1,12 +1,10 @@
 package com.jsyunsi.mobile_manager.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import com.jsyunsi.mobile_manager.daoInter.TransactionRecordDaoInter;
 import com.jsyunsi.mobile_manager.util.DBUtil;
 import com.jsyunsi.mobile_manager.vo.TransactionRecord;
@@ -25,7 +23,11 @@ public class TransactionRecordDao implements TransactionRecordDaoInter {
 			ps.setString(1, record.getUserID());
 			ps.setString(2, record.getSpID());
 			ps.setFloat(3, record.getCharge());
-			ps.setDate(4, new Date(record.getTradingTime().getTime()));// date:util->sql转换
+
+			ps.setTimestamp(3, record.getTradingTime());
+
+			// ps.setDate(4, new Date(record.getTradingTime().getTime()));//
+			// date:util->sql转换
 			ps.setString(5, record.getRemarks());
 			i = ps.executeUpdate();
 		} catch (SQLException e) {
@@ -58,7 +60,7 @@ public class TransactionRecordDao implements TransactionRecordDaoInter {
 				tr.setUserID(rs.getString(1));
 				tr.setSpID(rs.getString(2));
 				tr.setCharge(rs.getFloat(3));
-				tr.setTradingTime(rs.getDate(4));
+				tr.setTradingTime(rs.getTimestamp(4));
 				tr.setRemarks(rs.getString(5));
 				list.add(tr);
 			}

@@ -1,5 +1,6 @@
 package com.jsyunsi.mobile_manager.services;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import com.jsyunsi.mobile_manager.dao.RechargeableCardDao;
 import com.jsyunsi.mobile_manager.dao.SPDao;
@@ -45,13 +46,13 @@ public class CardRechargeService implements RechargeInter {
 					b1 = rCardDao.updateRechargeCardStatus(cardID, false);
 					b2 = uDao.updateUser(userID, user);
 				}
-				// 添加交易记录
+				// 添加充值交易记录
 				TransactionRecord record = new TransactionRecord();
 				TransactionRecordDaoInter recordDao = new TransactionRecordDao();
 				record.setUserID(userID);
 				record.setSpID(sp.getID());
 				record.setCharge(rCardDao.getDenomination(cardID));
-				record.setTradingTime(new Date());
+				record.setTradingTime(new Timestamp(new Date().getTime()));
 				record.setRemarks("账号充值" + Float.toString(rCardDao.getDenomination(cardID)) + "元");
 				while (!recordDao.addRecord(record)) {
 				}

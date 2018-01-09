@@ -1,5 +1,6 @@
 package com.jsyunsi.mobile_manager.vo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -16,7 +17,7 @@ public class TransactionRecord {
 	/** 业务服务费 */
 	float charge;
 	/** 交易时间 */
-	Date tradingTime;
+	Timestamp tradingTime;
 	/** 交易备注 */
 	String remarks;
 
@@ -24,7 +25,7 @@ public class TransactionRecord {
 		super();
 	}
 
-	public TransactionRecord(String userID, String spID, float charge, Date tradingTime, String remarks) {
+	public TransactionRecord(String userID, String spID, float charge, Timestamp tradingTime, String remarks) {
 		super();
 		this.userID = userID;
 		this.spID = spID;
@@ -45,7 +46,7 @@ public class TransactionRecord {
 		return charge;
 	}
 
-	public Date getTradingTime() {
+	public Timestamp getTradingTime() {
 		return tradingTime;
 	}
 
@@ -65,7 +66,7 @@ public class TransactionRecord {
 		this.charge = charge;
 	}
 
-	public void setTradingTime(Date tradingTime) {
+	public void setTradingTime(Timestamp tradingTime) {
 		this.tradingTime = tradingTime;
 	}
 
