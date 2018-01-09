@@ -12,7 +12,7 @@ import java.util.Properties;
  */
 public final class Constant {
 	/** MySQL数据库连接 */
-	private static String mysqlUrl = "jdbc:mysql://localhost:3306/mobile_message";
+	private static String mysqlUrl = "jdbc:mysql://192.168.3.30:3306/mobile_message";
 	/** MySQL用户 */
 	private static String mysqlUser = "root";
 	/** MySQL用户密码 */
@@ -24,24 +24,25 @@ public final class Constant {
 	/** 服务器注册登录端口 */
 	private static int registerPort = 5650;
 
-	static {
-		Properties p = new Properties();
-		// com/jsyunsi/mobile_manager/config/
-		InputStream in = Constant.class.getClassLoader().getResourceAsStream("mobile.properties");
-		try {
-			p.load(in);
-			in.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		mysqlUrl = p.getProperty("mysqlUrl");
-		mysqlUser = p.getProperty("mysqlUser");
-		mysqlPasswd = p.getProperty("mysqlPasswd");
-		clientSMSPort = Integer.parseInt(p.getProperty("clientSMSPort"));
-		serverSMSPort = Integer.parseInt(p.getProperty("serverSMSPort"));
-		registerPort = Integer.parseInt(p.getProperty("registerPort"));
-	}
+	// static {
+	// Properties p = new Properties();
+	// // com/jsyunsi/mobile_manager/config/
+	// InputStream in =
+	// Constant.class.getClassLoader().getResourceAsStream("mobile.properties");
+	// try {
+	// p.load(in);
+	// in.close();
+	// } catch (IOException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// mysqlUrl = p.getProperty("mysqlUrl");
+	// mysqlUser = p.getProperty("mysqlUser");
+	// mysqlPasswd = p.getProperty("mysqlPasswd");
+	// clientSMSPort = Integer.parseInt(p.getProperty("clientSMSPort"));
+	// serverSMSPort = Integer.parseInt(p.getProperty("serverSMSPort"));
+	// registerPort = Integer.parseInt(p.getProperty("registerPort"));
+	// }
 
 	private Constant() {
 	}
