@@ -23,11 +23,7 @@ public class TransactionRecordDao implements TransactionRecordDaoInter {
 			ps.setString(1, record.getUserID());
 			ps.setString(2, record.getSpID());
 			ps.setFloat(3, record.getCharge());
-
-			ps.setTimestamp(3, record.getTradingTime());
-
-			// ps.setDate(4, new Date(record.getTradingTime().getTime()));//
-			// date:util->sql转换
+			ps.setTimestamp(4, record.getTradingTime());
 			ps.setString(5, record.getRemarks());
 			i = ps.executeUpdate();
 		} catch (SQLException e) {
