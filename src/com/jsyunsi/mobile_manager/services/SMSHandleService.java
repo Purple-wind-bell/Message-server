@@ -209,7 +209,7 @@ public class SMSHandleService {
 					break;
 				}
 			} else {// 转发短信
-				System.out.println("转发短信处理");
+				// System.out.println("转发短信处理");
 				if (udao.getUser(sourceAddress).getBalance() > 0) {// 余额充足
 					if (this.forward(fSMS)) {
 						status = "0000";// 转发成功
@@ -225,6 +225,7 @@ public class SMSHandleService {
 				}
 				// - 扣费
 				new Charging().charge("000", sourceAddress);
+				targetAddress = "00000000000";
 			}
 		} else {
 			status = "3000";
@@ -245,18 +246,20 @@ public class SMSHandleService {
 		String senderID = formatSMS.getSourceAddress();
 		User reveicer = udao.getUser(receiverID);
 		if (reveicer != null) {
-			s = new SendMessage(formatSMS).send();// 转发短信
-			// System.out.println("已经向" + receiverID + "转发短信");
-			s = true;
+			if (new SendMessage(formatSMS).send()) {// 转发短信成功
+				// System.out.println("已经向" + receiverID + "转发短信");
+				s = true;
+				// -------添加短信历史记录
+				SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Timestamp(new Date().getTime()),
+						formatSMS.getContent());
+				while (!smsHistoryDao.addSMSHistory(smsHistory)) {
+				}
+			} else {
+				s = false;
+			}
 		} else {
 			s = false;
 		}
-		// -------添加短信历史记录
-		SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Timestamp(new Date().getTime()),
-				formatSMS.getContent());
-		while (!smsHistoryDao.addSMSHistory(smsHistory)) {
-		}
-		System.out.println("添加短信历史记录");
 		return s;
 	}
 

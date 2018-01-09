@@ -50,9 +50,7 @@ public class SendMessage {
 	public boolean send() {
 		boolean status = false;
 		String targetAddress = sms.getTargetAddress();
-		System.out.println(targetAddress);
 		User user = uDao.getUser(targetAddress);
-		System.out.println(user.getUserID());
 		IP = user.getUserIP();
 		if (IP.equals("0.0.0.0") || user.isFrozenStatus() || !user.isOnlineStatus()) {
 			status = false;
@@ -63,7 +61,7 @@ public class SendMessage {
 				String outString = FormatUtil.toStringSMS(sms);
 				pWriter.println(outString);// 发送
 				pWriter.flush();
-				System.out.println("SendMessage:短信已发送");
+				// System.out.println("SendMessage:短信已发送");
 				status = true;
 			} catch (Exception e) {
 				e.printStackTrace();
