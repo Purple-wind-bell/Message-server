@@ -208,15 +208,16 @@ public class QueryWeatherService implements QueryWeatherInter {
 		// result = w.getStatus();
 		// }
 		try {
-			// 测试获取实时天气1(包含风况，湿度)
-			Map<String, Object> map = getTodayWeather1("101010100");
-			result = map.get("city") + "\t" + map.get("temp") + "\t" + map.get("WD") + "\t" + map.get("WS") + "\t"
-					+ map.get("SD") + "\t" + map.get("time") + "\n";
+			// // 测试获取实时天气1(包含风况，湿度)
+			// Map<String, Object> map = getTodayWeather1("101010100");
+			// result = map.get("city") + "\t" + map.get("temp") + "\t" + map.get("WD") +
+			// "\t" + map.get("WS") + "\t"
+			// + map.get("SD") + "\t" + map.get("time") + "\n";
 
 			// 测试获取实时天气2(包含天气，温度范围)
 			Map<String, Object> map2 = getTodayWeather2("101010100");
-			result = result + map2.get("city") + "\t" + map2.get("temp1") + "\t" + map2.get("temp2") + "\t"
-					+ map2.get("weather") + "\t" + map2.get("ptime");
+			result = result + map2.get("city") + "\n" + map2.get("temp1") + "\n" + map2.get("temp2") + "\n"
+					+ map2.get("weather") + "\n" + map2.get("ptime");
 
 			// 测试获取一周天气
 			// List<Map<String, Object>> listData = getWeekWeatherMap("101010100");

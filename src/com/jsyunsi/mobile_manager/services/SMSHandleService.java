@@ -213,12 +213,9 @@ public class SMSHandleService {
 				if (udao.getUser(sourceAddress).getBalance() > 0) {// 余额充足
 					if (this.forward(fSMS)) {
 						status = "0000";// 转发成功
-						sourceAddress = "00000000000";
 						smsContent = "向" + targetAddress + "发送短信成功。";
-						// - 扣费
 					} else {
 						status = "0001";// 转发失败
-						sourceAddress = "00000000000";
 						smsContent = "向" + targetAddress + "发送短信失败。";
 					}
 					new Charging().charge("000", sourceAddress);
@@ -226,6 +223,8 @@ public class SMSHandleService {
 					status = "0001";
 					smsContent = "余额不足！";
 				}
+				// - 扣费
+				new Charging().charge("000", sourceAddress);
 			}
 		} else {
 			status = "3000";
@@ -257,6 +256,7 @@ public class SMSHandleService {
 				formatSMS.getContent());
 		while (!smsHistoryDao.addSMSHistory(smsHistory)) {
 		}
+		System.out.println("添加短信历史记录");
 		return s;
 	}
 
