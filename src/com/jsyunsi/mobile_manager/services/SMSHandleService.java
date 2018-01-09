@@ -25,7 +25,7 @@ import com.jsyunsi.mobile_manager.vo.User;
 public class SMSHandleService {
 	private QueryBalanceInter bQuery = new QueryBalanceService();
 	private LoginRegisterService lrService = new LoginRegisterService();
-	private RechargeInter recharge = new RechargeService();
+	private RechargeInter recharge = new CardRechargeService();
 	private QueryWeatherInter weatherQuery = new QueryWeatherService();
 	private QueryRecordInter queryRecord = new QueryRecordService();
 	UserDaoInter udao = new UserDao();

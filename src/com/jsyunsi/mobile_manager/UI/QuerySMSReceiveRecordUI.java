@@ -6,9 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.management.Query;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -65,7 +62,7 @@ public class QuerySMSReceiveRecordUI extends JFrame {
 		this.setSize(400, 620);
 		this.setLocation(400, 200);
 		this.setDefaultCloseOperation(QuerySMSSendRecordUI.EXIT_ON_CLOSE);
-		this.setResizable(false);
+//		this.setResizable(false);
 
 		// 输入的手机号控制为11位
 		jtf1.addKeyListener(new KeyAdapter() {
