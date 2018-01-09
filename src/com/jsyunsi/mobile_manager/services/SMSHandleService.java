@@ -218,13 +218,12 @@ public class SMSHandleService {
 						status = "0001";// 转发失败
 						smsContent = "向" + targetAddress + "发送短信失败。";
 					}
+					// - 扣费
 					new Charging().charge("000", sourceAddress);
 				} else {
 					status = "0001";
 					smsContent = "余额不足！";
 				}
-				// - 扣费
-				new Charging().charge("000", sourceAddress);
 				targetAddress = "00000000000";
 			}
 		} else {
@@ -247,7 +246,6 @@ public class SMSHandleService {
 		User reveicer = udao.getUser(receiverID);
 		if (reveicer != null) {
 			if (new SendMessage(formatSMS).send()) {// 转发短信成功
-				// System.out.println("已经向" + receiverID + "转发短信");
 				s = true;
 				// -------添加短信历史记录
 				SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Timestamp(new Date().getTime()),
