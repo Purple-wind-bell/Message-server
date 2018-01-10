@@ -1,5 +1,7 @@
 package com.jsyunsi.mobile_manager.daoInter;
 
+import java.util.ArrayList;
+
 import com.jsyunsi.mobile_manager.vo.User;
 
 /**
@@ -41,4 +43,11 @@ public interface UserDaoInter {
 	 * @return 用户不存在返回null
 	 */
 	User getUser(String userID);
+
+	/**
+	 * 获得所有用户ID
+	 * 
+	 * @return
+	 */
+	ArrayList<User> getAllUser();
 }

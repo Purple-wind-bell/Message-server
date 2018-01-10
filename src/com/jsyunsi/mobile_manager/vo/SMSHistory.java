@@ -1,5 +1,6 @@
 package com.jsyunsi.mobile_manager.vo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -14,7 +15,7 @@ public class SMSHistory {
 	/** 收件人id，手机号 */
 	String receiverID;
 	/** 发件时间 */
-	Date sendTime;
+	Timestamp sendTime;
 	/** 短信内容 */
 	String message;
 
@@ -22,7 +23,7 @@ public class SMSHistory {
 		super();
 	}
 
-	public SMSHistory(String senderID, String receiverID, Date sendTime, String message) {
+	public SMSHistory(String senderID, String receiverID, Timestamp sendTime, String message) {
 		super();
 		this.senderID = senderID;
 		this.receiverID = receiverID;
@@ -38,7 +39,7 @@ public class SMSHistory {
 		return receiverID;
 	}
 
-	public Date getSendTime() {
+	public Timestamp getSendTime() {
 		return sendTime;
 	}
 
@@ -54,7 +55,7 @@ public class SMSHistory {
 		this.receiverID = receiverID;
 	}
 
-	public void setSendTime(Date sendTime) {
+	public void setSendTime(Timestamp sendTime) {
 		this.sendTime = sendTime;
 	}
 
@@ -65,7 +66,7 @@ public class SMSHistory {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		String string = "发件人:" + senderID + "		收件人:" + receiverID + "		发件时间:" + sendTime + "		短信内容 :"
+		String string = "发件人:" + senderID + "\t收件人:" + receiverID + "\t发件时间:" + sendTime + "\t短信内容 :"
 				+ message;
 		return string;
 	}

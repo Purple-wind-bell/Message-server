@@ -12,36 +12,37 @@ import java.util.Properties;
  */
 public final class Constant {
 	/** MySQL数据库连接 */
-	private static String mysqlUrl;
+	private static String mysqlUrl = "jdbc:mysql://localhost:3306/mobile_message";
 	/** MySQL用户 */
-	private static String mysqlUser;
+	private static String mysqlUser = "root";
 	/** MySQL用户密码 */
-	private static String mysqlPasswd;
+	private static String mysqlPasswd = "123456";
 	/** 客户端普通短信接收端口 */
-	private static int clientSMSPort;
+	private static int clientSMSPort = 5700;
 	/** 服务器普通短信收发端口 */
-	private static int serverSMSPort;
+	private static int serverSMSPort = 5600;
 	/** 服务器注册登录端口 */
-	private static int registerPort;
+	private static int registerPort = 5650;
 
-	static {
-		Properties p = new Properties();
-//		com/jsyunsi/mobile_manager/config/
-		InputStream in = Constant.class.getClassLoader().getResourceAsStream("com/jsyunsi/mobile_manager/config/mobile.properties");
-		try {
-			p.load(in);
-			in.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		mysqlUrl = p.getProperty("mysqlUrl");
-		mysqlUser = p.getProperty("mysqlUser");
-		mysqlPasswd = p.getProperty("mysqlPasswd");
-		clientSMSPort = Integer.parseInt(p.getProperty("clientSMSPort"));
-		serverSMSPort = Integer.parseInt(p.getProperty("serverSMSPort"));
-		registerPort = Integer.parseInt(p.getProperty("registerPort"));
-	}
+	// static {
+	// Properties p = new Properties();
+	// // com/jsyunsi/mobile_manager/config/
+	// InputStream in =
+	// Constant.class.getClassLoader().getResourceAsStream("mobile.properties");
+	// try {
+	// p.load(in);
+	// in.close();
+	// } catch (IOException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// mysqlUrl = p.getProperty("mysqlUrl");
+	// mysqlUser = p.getProperty("mysqlUser");
+	// mysqlPasswd = p.getProperty("mysqlPasswd");
+	// clientSMSPort = Integer.parseInt(p.getProperty("clientSMSPort"));
+	// serverSMSPort = Integer.parseInt(p.getProperty("serverSMSPort"));
+	// registerPort = Integer.parseInt(p.getProperty("registerPort"));
+	// }
 
 	private Constant() {
 	}

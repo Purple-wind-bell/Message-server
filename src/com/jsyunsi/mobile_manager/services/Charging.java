@@ -1,5 +1,6 @@
 package com.jsyunsi.mobile_manager.services;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import com.jsyunsi.mobile_manager.dao.SPDao;
@@ -32,19 +33,22 @@ public class Charging {
 		// - 扣费
 		SP sp = spdao.getSP(spID);
 		User user = udao.getUser(userID);
-		float balance = user.getBalance() - sp.getCharge();
-		user.setBalance(balance);
-		udao.updateUser(user.getUserID(), user);
-
-		// 添加记录
-		TransactionRecord record = new TransactionRecord();
-		TransactionRecordDaoInter recordDao = new TransactionRecordDao();
-		record.setUserID(userID);
-		record.setSpID(sp.getID());
-		record.setCharge(sp.getCharge());
-		record.setTradingTime(new Date());
-		record.setRemarks("SP服务" + spID + "消费" + Float.toString(sp.getCharge()) + "元");
-		while (!recordDao.addRecord(record)) {
+		if (sp != null && user != null) {
+			// 用户账号扣费
+			float balance = user.getBalance() - sp.getCharge();
+			user.setBalance(balance);
+			udao.updateUser(user.getUserID(), user);
+			// 添加记录
+			TransactionRecord record = new TransactionRecord();
+			TransactionRecordDaoInter recordDao = new TransactionRecordDao();
+			record.setUserID(userID);
+			record.setSpID(sp.getID());
+			System.out.println("SP服务费：" + sp.getCharge());
+			record.setCharge(-sp.getCharge());// 金额显示负的，表示扣费
+			record.setTradingTime(new Timestamp(new Date().getTime()));
+			record.setRemarks("SP服务" + spID + "消费" + Float.toString(sp.getCharge()) + "元");
+			while (!recordDao.addRecord(record)) {
+			}
 		}
 	}
 }

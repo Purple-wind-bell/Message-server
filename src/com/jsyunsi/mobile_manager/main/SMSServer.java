@@ -74,15 +74,12 @@ public class SMSServer extends Thread {
 				while (insms == null) {
 					insms = bReader.readLine();
 				}
-				System.out.println("接收的SMS:" + insms);
 				// 格式化信息
 				FormatSMS inFormatSMS = FormatUtil.toFormatSMS(insms);
 				if (inFormatSMS.getCmd().equals("CMD003")) {// 仅处理普通短信
 					outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
-					if (outFormatSMS != null && uDao.getUser(outFormatSMS.getTargetAddress()) != null) {
-						new SendMessage(outFormatSMS).send();// 发送回复短信
-						System.out.println("发送回复短信");
-					}
+//					System.out.println(outFormatSMS.toString());
+					new SendMessage(outFormatSMS).send();// 发送回复短信
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

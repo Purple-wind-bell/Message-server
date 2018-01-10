@@ -59,9 +59,10 @@ public class SendMessage {
 				socket = new Socket(IP, PORT);
 				pWriter = new PrintWriter(socket.getOutputStream());
 				String outString = FormatUtil.toStringSMS(sms);
+				System.out.println(outString);
 				pWriter.println(outString);// 发送
 				pWriter.flush();
-				System.out.println("SendMessage:短信已发送");
+				// System.out.println("SendMessage:短信已发送");
 				status = true;
 			} catch (Exception e) {
 				e.printStackTrace();

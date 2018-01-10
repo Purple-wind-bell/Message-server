@@ -1,5 +1,6 @@
 package com.jsyunsi.mobile_manager.services;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import com.jsyunsi.mobile_manager.dao.SMSHistoryDao;
 import com.jsyunsi.mobile_manager.dao.SPDao;
@@ -13,7 +14,6 @@ import com.jsyunsi.mobile_manager.servicesInter.RechargeInter;
 import com.jsyunsi.mobile_manager.servicesInter.QueryWeatherInter;
 import com.jsyunsi.mobile_manager.vo.FormatSMS;
 import com.jsyunsi.mobile_manager.vo.SMSHistory;
-import com.jsyunsi.mobile_manager.vo.SP;
 import com.jsyunsi.mobile_manager.vo.User;
 
 /**
@@ -25,7 +25,7 @@ import com.jsyunsi.mobile_manager.vo.User;
 public class SMSHandleService {
 	private QueryBalanceInter bQuery = new QueryBalanceService();
 	private LoginRegisterService lrService = new LoginRegisterService();
-	private RechargeInter recharge = new RechargeService();
+	private RechargeInter recharge = new CardRechargeService();
 	private QueryWeatherInter weatherQuery = new QueryWeatherService();
 	private QueryRecordInter queryRecord = new QueryRecordService();
 	UserDaoInter udao = new UserDao();
@@ -209,28 +209,28 @@ public class SMSHandleService {
 					break;
 				}
 			} else {// 转发短信
-				System.out.println("转发短信处理");
+				// System.out.println("转发短信处理");
 				if (udao.getUser(sourceAddress).getBalance() > 0) {// 余额充足
 					if (this.forward(fSMS)) {
 						status = "0000";// 转发成功
-						sourceAddress = "00000000000";
 						smsContent = "向" + targetAddress + "发送短信成功。";
-						// - 扣费
 					} else {
 						status = "0001";// 转发失败
-						sourceAddress = "00000000000";
 						smsContent = "向" + targetAddress + "发送短信失败。";
 					}
+					// - 扣费
 					new Charging().charge("000", sourceAddress);
 				} else {
 					status = "0001";
 					smsContent = "余额不足！";
 				}
+				targetAddress = "00000000000";
 			}
 		} else {
 			status = "3000";
 			smsContent = "用户不存在或状态错误！";
 		}
+		// System.out.println(smsContent);
 		return new FormatSMS(cmd, targetAddress, sourceAddress, status, smsContent);
 	}
 
@@ -246,15 +246,18 @@ public class SMSHandleService {
 		String senderID = formatSMS.getSourceAddress();
 		User reveicer = udao.getUser(receiverID);
 		if (reveicer != null) {
-			s = new SendMessage(formatSMS).send();// 转发短信
-			// System.out.println("已经向" + receiverID + "转发短信");
-			s = true;
+			if (new SendMessage(formatSMS).send()) {// 转发短信成功
+				s = true;
+				// -------添加短信历史记录
+				SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Timestamp(new Date().getTime()),
+						formatSMS.getContent());
+				while (!smsHistoryDao.addSMSHistory(smsHistory)) {
+				}
+			} else {
+				s = false;
+			}
 		} else {
 			s = false;
-		}
-		// -------添加短信历史记录
-		SMSHistory smsHistory = new SMSHistory(senderID, receiverID, new Date(), formatSMS.getContent());
-		while (!smsHistoryDao.addSMSHistory(smsHistory)) {
 		}
 		return s;
 	}
