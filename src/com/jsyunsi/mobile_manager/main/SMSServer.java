@@ -78,6 +78,7 @@ public class SMSServer extends Thread {
 				FormatSMS inFormatSMS = FormatUtil.toFormatSMS(insms);
 				if (inFormatSMS.getCmd().equals("CMD003")) {// 仅处理普通短信
 					outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
+//					System.out.println(outFormatSMS.toString());
 					new SendMessage(outFormatSMS).send();// 发送回复短信
 				}
 			} catch (IOException e) {

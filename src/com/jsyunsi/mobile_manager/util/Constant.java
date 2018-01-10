@@ -12,7 +12,7 @@ import java.util.Properties;
  */
 public final class Constant {
 	/** MySQL数据库连接 */
-	private static String mysqlUrl = "jdbc:mysql://192.168.3.30:3306/mobile_message";
+	private static String mysqlUrl = "jdbc:mysql://localhost:3306/mobile_message";
 	/** MySQL用户 */
 	private static String mysqlUser = "root";
 	/** MySQL用户密码 */

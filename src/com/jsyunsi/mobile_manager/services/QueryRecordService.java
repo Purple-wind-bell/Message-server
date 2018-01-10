@@ -80,6 +80,7 @@ public class QueryRecordService implements QueryRecordInter {
 			string2 = string2 + record.toString() + "\n";
 		}
 		string.append(string1).append(string2);
+		// System.out.println(string.toString());
 		return string.toString();
 	}
 

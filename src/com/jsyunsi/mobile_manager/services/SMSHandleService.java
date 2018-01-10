@@ -230,6 +230,7 @@ public class SMSHandleService {
 			status = "3000";
 			smsContent = "用户不存在或状态错误！";
 		}
+		// System.out.println(smsContent);
 		return new FormatSMS(cmd, targetAddress, sourceAddress, status, smsContent);
 	}
 

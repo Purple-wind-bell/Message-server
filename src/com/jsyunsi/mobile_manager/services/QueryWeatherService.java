@@ -216,8 +216,8 @@ public class QueryWeatherService implements QueryWeatherInter {
 
 			// 测试获取实时天气2(包含天气，温度范围)
 			Map<String, Object> map2 = getTodayWeather2("101010100");
-			result = result + map2.get("city") + "\n" + map2.get("temp1") + "\n" + map2.get("temp2") + "\n"
-					+ map2.get("weather") + "\n" + map2.get("ptime");
+			result = map2.get("city") + "  " + map2.get("temp1") + "  " + map2.get("temp2") + "  " + map2.get("weather")
+					+ "  " + map2.get("ptime");
 
 			// 测试获取一周天气
 			// List<Map<String, Object>> listData = getWeekWeatherMap("101010100");
