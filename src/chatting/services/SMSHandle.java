@@ -9,7 +9,7 @@ import chatting.dao.UserDao;
 import chatting.daoInter.SMSHistoryDaoInter;
 import chatting.daoInter.SPDaoInter;
 import chatting.daoInter.UserDaoInter;
-import chatting.servicesInter.QueryBalanceInter;
+import chatting.servicesInter.QueryUserInter;
 import chatting.servicesInter.QueryRecordInter;
 import chatting.servicesInter.QueryWeatherInter;
 import chatting.servicesInter.RechargeInter;
@@ -23,10 +23,10 @@ import chatting.vo.User;
  * @author 紫风铃
  *
  */
-public class SMSHandleService {
-	private QueryBalanceInter bQuery = new QueryBalanceService();
+public class SMSHandle {
+	private QueryUserInter bQuery = new QueryUserService();
 	private LoginRegisterService lrService = new LoginRegisterService();
-	private RechargeInter recharge = new CardRechargeService();
+	private RechargeInter recharge = new RechargeService();
 	private QueryWeatherInter weatherQuery = new QueryWeatherService();
 	private QueryRecordInter queryRecord = new QueryRecordService();
 	UserDaoInter udao = new UserDao();
@@ -141,7 +141,7 @@ public class SMSHandleService {
 						status = "0000";
 						smsContent = "当前手机余额：" + Float.toString(balance) + "元";
 						// - 扣费
-						new Charging().charge("001", sourceAddress);
+						new SPCharge().charge("001", sourceAddress);
 					} else {
 						status = "0001";
 						smsContent = "余额不足！";
@@ -153,7 +153,7 @@ public class SMSHandleService {
 						status = "0000";
 						smsContent = weatherQuery.queryWeather(cityID, new Date());
 						// - 扣费
-						new Charging().charge("002", sourceAddress);
+						new SPCharge().charge("002", sourceAddress);
 					} else {
 						status = "0001";
 						smsContent = "余额不足！";
@@ -169,7 +169,7 @@ public class SMSHandleService {
 						status = "0000";
 						smsContent = "充值成功";
 						// - 扣费
-						new Charging().charge("003", sourceAddress);
+						new SPCharge().charge("003", sourceAddress);
 						break;
 					case 2:
 						status = "5001";
@@ -198,7 +198,7 @@ public class SMSHandleService {
 							smsContent = queryRecord.transactionRecordQuery(sourceAddress);
 						}
 						// - 扣费
-						new Charging().charge("004", sourceAddress);
+						new SPCharge().charge("004", sourceAddress);
 					} else {
 						status = "0001";
 						smsContent = "余额不足！";
@@ -220,7 +220,7 @@ public class SMSHandleService {
 						smsContent = "向" + targetAddress + "发送短信失败。";
 					}
 					// - 扣费
-					new Charging().charge("000", sourceAddress);
+					new SPCharge().charge("000", sourceAddress);
 				} else {
 					status = "0001";
 					smsContent = "余额不足！";

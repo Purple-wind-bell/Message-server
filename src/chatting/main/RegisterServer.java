@@ -9,7 +9,7 @@ import java.net.Socket;
 
 import chatting.dao.UserDao;
 import chatting.daoInter.UserDaoInter;
-import chatting.services.SMSHandleService;
+import chatting.services.SMSHandle;
 import chatting.util.Constant;
 import chatting.util.FormatUtil;
 import chatting.vo.FormatSMS;
@@ -82,7 +82,7 @@ public class RegisterServer extends Thread {
 				FormatSMS inFormatSMS = FormatUtil.toFormatSMS(insms);
 				if (inFormatSMS.getCmd().equals("CMD001") || inFormatSMS.getCmd().equals("CMD002")) {// 仅处理登录注册注销短信
 					// System.out.println(inFormatSMS.toString());
-					outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
+					outFormatSMS = new SMSHandle().process(inFormatSMS);// 进行短信处理，获得返回短信
 					pWriter.println(FormatUtil.toStringSMS(outFormatSMS));// 发送回复短信
 					pWriter.flush();
 				}

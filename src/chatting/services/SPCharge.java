@@ -19,7 +19,7 @@ import chatting.vo.User;
  * @author Administrator
  *
  */
-public class Charging {
+public class SPCharge {
 	private UserDaoInter udao = new UserDao();
 	private SPDaoInter spdao = new SPDao();
 

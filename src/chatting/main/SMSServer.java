@@ -5,14 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-
 import chatting.dao.UserDao;
 import chatting.daoInter.UserDaoInter;
-import chatting.services.SMSHandleService;
+import chatting.services.SMSHandle;
 import chatting.services.SendMessage;
 import chatting.util.Constant;
 import chatting.util.FormatUtil;
-import chatting.vo.FormatSMS;
 
 /**
  * 服务器非登录注册服务监听及处理, 数据接收socket，均采用5600端口
@@ -77,7 +75,7 @@ public class SMSServer extends Thread {
 				// 格式化信息
 				FormatSMS inFormatSMS = FormatUtil.toFormatSMS(insms);
 				if (inFormatSMS.getCmd().equals("CMD003")) {// 仅处理普通短信
-					outFormatSMS = new SMSHandleService().process(inFormatSMS);// 进行短信处理，获得返回短信
+					outFormatSMS = new SMSHandle().process(inFormatSMS);// 进行短信处理，获得返回短信
 //					System.out.println(outFormatSMS.toString());
 					new SendMessage(outFormatSMS).send();// 发送回复短信
 				}
