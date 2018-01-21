@@ -1,15 +1,16 @@
 package chatting.vo;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
- * SMS历史记录类
+ * Message历史记录类
  * 
  * @author 紫风铃
  *
+ * @param <T>
+ *            消息内容类
  */
-public class SMSHistory {
+public class SMSHistory<T> {
 	/** 发件人id，手机号 */
 	String senderID;
 	/** 收件人id，手机号 */
@@ -17,13 +18,13 @@ public class SMSHistory {
 	/** 发件时间 */
 	Timestamp sendTime;
 	/** 短信内容 */
-	String message;
+	T message;
 
 	public SMSHistory() {
 		super();
 	}
 
-	public SMSHistory(String senderID, String receiverID, Timestamp sendTime, String message) {
+	public SMSHistory(String senderID, String receiverID, Timestamp sendTime, T message) {
 		super();
 		this.senderID = senderID;
 		this.receiverID = receiverID;
@@ -43,7 +44,7 @@ public class SMSHistory {
 		return sendTime;
 	}
 
-	public String getMessage() {
+	public T getMessage() {
 		return message;
 	}
 
@@ -59,16 +60,8 @@ public class SMSHistory {
 		this.sendTime = sendTime;
 	}
 
-	public void setMessage(String message) {
+	public void setMessage(T message) {
 		this.message = message;
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		String string = "发件人:" + senderID + "\t收件人:" + receiverID + "\t发件时间:" + sendTime + "\t短信内容 :"
-				+ message;
-		return string;
 	}
 
 }

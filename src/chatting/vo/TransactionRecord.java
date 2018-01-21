@@ -1,7 +1,6 @@
 package chatting.vo;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * 交易记录类

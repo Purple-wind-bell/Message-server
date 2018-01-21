@@ -62,4 +62,36 @@ public class Message<T> implements Serializable {
 
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getMessageType() {
+		return messageType;
+	}
+
+	public String getSourceId() {
+		return sourceId;
+	}
+
+	public String getTargetId() {
+		return targetId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public T getContent() {
+		return content;
+	}
+
+	public String getCheckCode() {
+		return checkCode;
+	}
+
 }

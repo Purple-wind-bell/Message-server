@@ -18,7 +18,7 @@ public interface SMSHistoryDaoInter {
 	 *            sms历史记录
 	 * @return true:添加成功
 	 */
-	boolean addSMSHistory(SMSHistory smsHistory);
+	boolean addSMSHistory(SMSHistory<String> smsHistory);
 
 	/**
 	 * 根据发件人查询短信记录
@@ -27,7 +27,7 @@ public interface SMSHistoryDaoInter {
 	 *            发件人ID
 	 * @return 短信记录的list
 	 */
-	ArrayList<SMSHistory> querySMSHistoryBySenderID(String senderID);
+	ArrayList<SMSHistory<String>> querySMSHistoryBySenderID(String senderID);
 
 	/**
 	 * 根据收件人查询短信记录
@@ -36,5 +36,5 @@ public interface SMSHistoryDaoInter {
 	 *            收件人ID
 	 * @return 短信记录的list
 	 */
-	ArrayList<SMSHistory> querySMSHistoryByReceiverID(String receiverID);
+	ArrayList<SMSHistory<String>> querySMSHistoryByReceiverID(String receiverID);
 }

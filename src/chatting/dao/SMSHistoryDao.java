@@ -14,7 +14,7 @@ import chatting.vo.SMSHistory;
 public class SMSHistoryDao implements SMSHistoryDaoInter {
 
 	@Override
-	public boolean addSMSHistory(SMSHistory smsHistory) {
+	public boolean addSMSHistory(SMSHistory<String> smsHistory) {
 		// TODO Auto-generated method stub
 		int rows = 0;
 		Connection connection = DBUtil.getconnection();
@@ -40,10 +40,10 @@ public class SMSHistoryDao implements SMSHistoryDaoInter {
 	}
 
 	@Override
-	public ArrayList<SMSHistory> querySMSHistoryBySenderID(String senderID) {
+	public ArrayList<SMSHistory<String>> querySMSHistoryBySenderID(String senderID) {
 		// TODO Auto-generated method stub
-		ArrayList<SMSHistory> list = new ArrayList<SMSHistory>();
-		SMSHistory smsHistory;
+		ArrayList<SMSHistory<String>> list = new ArrayList<SMSHistory<String>>();
+		SMSHistory<String> smsHistory;
 		String sql = "SELECT * FROM sms_history WHERE senderID = ?";
 		Connection connection = DBUtil.getconnection();
 		ResultSet resultSet = null;
@@ -56,7 +56,7 @@ public class SMSHistoryDao implements SMSHistoryDaoInter {
 				String receiverID = resultSet.getString(2);
 				Timestamp sendTime = resultSet.getTimestamp(3);
 				String message = resultSet.getString(4);
-				smsHistory = new SMSHistory(senderID1, receiverID, sendTime, message);
+				smsHistory = new SMSHistory<String>(senderID1, receiverID, sendTime, message);
 				list.add(smsHistory);
 			}
 		} catch (SQLException e) {
@@ -69,10 +69,10 @@ public class SMSHistoryDao implements SMSHistoryDaoInter {
 	}
 
 	@Override
-	public ArrayList<SMSHistory> querySMSHistoryByReceiverID(String receiverID) {
+	public ArrayList<SMSHistory<String>> querySMSHistoryByReceiverID(String receiverID) {
 		// TODO Auto-generated method stub
-		ArrayList<SMSHistory> list = new ArrayList<SMSHistory>();
-		SMSHistory smsHistory;
+		ArrayList<SMSHistory<String>> list = new ArrayList<SMSHistory<String>>();
+		SMSHistory<String> smsHistory;
 		String sql = "SELECT * FROM sms_history WHERE senderID = ?";
 		Connection connection = DBUtil.getconnection();
 		ResultSet resultSet = null;
@@ -85,7 +85,7 @@ public class SMSHistoryDao implements SMSHistoryDaoInter {
 				String receiverID1 = resultSet.getString(2);
 				Timestamp sendTime = resultSet.getTimestamp(3);
 				String message = resultSet.getString(4);
-				smsHistory = new SMSHistory(senderID, receiverID1, sendTime, message);
+				smsHistory = new SMSHistory<String>(senderID, receiverID1, sendTime, message);
 				list.add(smsHistory);
 			}
 		} catch (SQLException e) {
