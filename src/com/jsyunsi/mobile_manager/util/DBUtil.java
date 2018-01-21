@@ -12,7 +12,7 @@ import java.sql.SQLException;
  */
 public class DBUtil {
 
-	public DBUtil() {
+	private DBUtil() {
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class DBUtil {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("释放失败");
+			// System.out.println("释放失败");
 		}
 	}
 

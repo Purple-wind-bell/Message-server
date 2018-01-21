@@ -16,7 +16,6 @@ public class QueryRecordUI extends JFrame {
 		Container c = this.getContentPane();
 
 		c.setLayout(new GridLayout(4, 1));
-		// c.setLayout(new FlowLayout());
 
 		JPanel jp1 = new JPanel();
 		JPanel jp2 = new JPanel();

@@ -43,7 +43,7 @@ public class Charging {
 			TransactionRecordDaoInter recordDao = new TransactionRecordDao();
 			record.setUserID(userID);
 			record.setSpID(sp.getID());
-			System.out.println("SP服务费：" + sp.getCharge());
+			// System.out.println("SP服务费：" + sp.getCharge());
 			record.setCharge(-sp.getCharge());// 金额显示负的，表示扣费
 			record.setTradingTime(new Timestamp(new Date().getTime()));
 			record.setRemarks("SP服务" + spID + "消费" + Float.toString(sp.getCharge()) + "元");

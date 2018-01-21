@@ -27,8 +27,8 @@ public class FormatUtil {
 		String sourceAddress = message.substring(6, 17);
 		String targetAddress = message.substring(17, 28);
 		String status = message.substring(28, 32);
-		String SMSContent = message.substring(32);
-		return new FormatSMS(cmd, sourceAddress, targetAddress, status, SMSContent);
+		String smsContent = message.substring(32);
+		return new FormatSMS(cmd, sourceAddress, targetAddress, status, smsContent);
 	}
 
 	/**
@@ -40,12 +40,12 @@ public class FormatUtil {
 	 */
 	public static String toStringSMS(FormatSMS formatSMS) {
 		// TODO Auto-generated method stub
-		StringBuilder SMSString = new StringBuilder();
-		SMSString.append(formatSMS.getCmd() != null ? formatSMS.getCmd() : "000000");
-		SMSString.append(formatSMS.getSourceAddress() != null ? formatSMS.getSourceAddress() : "00000000000");
-		SMSString.append(formatSMS.getTargetAddress() != null ? formatSMS.getTargetAddress() : "00000000000");
-		SMSString.append(formatSMS.getStatus() != null ? formatSMS.getStatus() : "0000");
-		SMSString.append(formatSMS.getContent() != null ? formatSMS.getContent() : "");
-		return SMSString.toString();
+		StringBuilder smsString = new StringBuilder();
+		smsString.append(formatSMS.getCmd() != null ? formatSMS.getCmd() : "000000");
+		smsString.append(formatSMS.getSourceAddress() != null ? formatSMS.getSourceAddress() : "00000000000");
+		smsString.append(formatSMS.getTargetAddress() != null ? formatSMS.getTargetAddress() : "00000000000");
+		smsString.append(formatSMS.getStatus() != null ? formatSMS.getStatus() : "0000");
+		smsString.append(formatSMS.getContent() != null ? formatSMS.getContent() : "");
+		return smsString.toString();
 	}
 }

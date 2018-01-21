@@ -23,7 +23,7 @@ public class CardRechargeService implements RechargeInter {
 	@Override
 	public int recharge(String userID, String cardID, String password) {
 		// TODO Auto-generated method stub
-		int status = 3;// 默认密码错误
+		int status ;// 默认密码错误
 		int s = rCardDao.checkRechargeCard(cardID, password);// 检测充值卡
 		switch (s) {
 		case 1:

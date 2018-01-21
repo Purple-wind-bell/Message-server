@@ -20,7 +20,6 @@ public class LoginUI extends JFrame {
 
 	public void login() {
 		Container c = this.getContentPane();
-		// JPanel c = (JPanel) this.getContentPane();
 		// c.setOpaque(false);
 		// c.setLayout(new GridLayout(12,1));
 		c.setLayout(new FlowLayout());
@@ -29,7 +28,6 @@ public class LoginUI extends JFrame {
 		JPanel jp2 = new JPanel();
 		JPanel jp3 = new JPanel();
 		JPanel jp4 = new JPanel();
-		// JPanel jp5 = new JPanel();
 
 		JLabel jl1 = new JLabel("账号：");
 		final JTextField jtf1 = new JTextField(20);
@@ -51,7 +49,6 @@ public class LoginUI extends JFrame {
 		c.add(jp2);
 		c.add(jp3);
 		c.add(jp4);
-		// c.add(jp5);
 
 		jp1.add(jl1);
 		jp1.add(jtf1);
