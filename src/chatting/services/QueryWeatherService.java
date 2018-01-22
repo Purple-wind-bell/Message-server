@@ -14,18 +14,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import chatting.dao.SPDao;
 import chatting.dao.UserDao;
-import chatting.dao.WeatherDao;
 import chatting.daoInter.SPDaoInter;
 import chatting.daoInter.UserDaoInter;
-import chatting.daoInter.WeatherDaoInter;
 import chatting.servicesInter.QueryWeatherInter;
 import net.sf.json.JSONObject;
 
 public class QueryWeatherService implements QueryWeatherInter {
-	WeatherDaoInter weatherDao = new WeatherDao();
 	SPDaoInter spdao = new SPDao();
 	UserDaoInter userDao = new UserDao();
 

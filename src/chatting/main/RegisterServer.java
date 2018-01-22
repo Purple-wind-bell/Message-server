@@ -2,17 +2,13 @@ package chatting.main;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-
 import chatting.dao.UserDao;
 import chatting.daoInter.UserDaoInter;
-import chatting.services.SMSHandle;
 import chatting.util.Constant;
-import chatting.util.FormatUtil;
-import chatting.vo.FormatSMS;
+import chatting.vo.Message;
 
 /**
  * 登录注册服务监听及处理, 数据接收socket，均采用5650端口
@@ -69,26 +65,7 @@ public class RegisterServer extends Thread {
 
 		public void run() {
 			/** 接收的SMS */
-			String insms = null;
-			FormatSMS outFormatSMS = null;
-			try {
-				bReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				pWriter = new PrintWriter(socket.getOutputStream());
-				while (insms == null) {
-					insms = bReader.readLine();
-				}
-				// System.out.println("服务器接收信息：" + insms.toString());
-				// 格式化信息
-				FormatSMS inFormatSMS = FormatUtil.toFormatSMS(insms);
-				if (inFormatSMS.getCmd().equals("CMD001") || inFormatSMS.getCmd().equals("CMD002")) {// 仅处理登录注册注销短信
-					// System.out.println(inFormatSMS.toString());
-					outFormatSMS = new SMSHandle().process(inFormatSMS);// 进行短信处理，获得返回短信
-					pWriter.println(FormatUtil.toStringSMS(outFormatSMS));// 发送回复短信
-					pWriter.flush();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			Message outFormatSMS = null;
 		}
 	}
 }

@@ -3,12 +3,10 @@ package chatting.services;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-
 import chatting.dao.UserDao;
 import chatting.daoInter.UserDaoInter;
 import chatting.util.Constant;
-import chatting.util.FormatUtil;
-import chatting.vo.FormatSMS;
+import chatting.vo.Message;
 import chatting.vo.User;
 
 /**
@@ -25,7 +23,7 @@ public class SendMessage {
 	/** IP地址 */
 	String IP = "127.0.0.1";
 	/** SMS */
-	FormatSMS sms = null;
+	Message message = null;
 	PrintWriter pWriter = null;
 	UserDaoInter uDao = new UserDao();
 
@@ -37,9 +35,9 @@ public class SendMessage {
 	 * @param formatSMS
 	 *            短信
 	 */
-	public SendMessage(FormatSMS formatSMS) {
+	public SendMessage(Message message) {
 		super();
-		this.sms = formatSMS;
+		this.message = message;
 	}
 
 	/**
@@ -49,7 +47,7 @@ public class SendMessage {
 	 */
 	public boolean send() {
 		boolean status = false;
-		String targetAddress = sms.getTargetAddress();
+		String targetAddress = message.getTargetId();
 		User user = uDao.getUser(targetAddress);
 		IP = user.getUserIP();
 		if (IP.equals("0.0.0.0") || user.isFrozenStatus() || !user.isOnlineStatus()) {
@@ -58,11 +56,6 @@ public class SendMessage {
 			try {
 				socket = new Socket(IP, PORT);
 				pWriter = new PrintWriter(socket.getOutputStream());
-				String outString = FormatUtil.toStringSMS(sms);
-				System.out.println(outString);
-				pWriter.println(outString);// 发送
-				pWriter.flush();
-				// System.out.println("SendMessage:短信已发送");
 				status = true;
 			} catch (Exception e) {
 				e.printStackTrace();

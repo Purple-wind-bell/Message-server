@@ -11,7 +11,7 @@ import chatting.vo.TransactionRecord;
  * @author Administrator
  *
  */
-public interface QueryRecordInter {
+public interface QueryRecordInter<T> {
 
 	/**
 	 * 交易记录查询
@@ -27,7 +27,7 @@ public interface QueryRecordInter {
 	 * @param userID
 	 * @return 短信历史
 	 */
-	ArrayList<SMSHistory<String>> SMSHistoryQueryBySender(String senderID);
+	ArrayList<SMSHistory<T>> SMSHistoryQueryBySender(String senderID);
 
 	/**
 	 * 根据收件人查询短信历史
@@ -35,7 +35,7 @@ public interface QueryRecordInter {
 	 * @param userID
 	 * @return 短信历史
 	 */
-	ArrayList<SMSHistory<String>> SMSHistoryQueryByReceiver(String receiverID);
+	ArrayList<SMSHistory<T>> SMSHistoryQueryByReceiver(String receiverID);
 
 	/**
 	 * 查询短信收发历史
@@ -43,5 +43,5 @@ public interface QueryRecordInter {
 	 * @param userID
 	 * @return 短信历史
 	 */
-	ArrayList<SMSHistory<String>> SMSHistoryQuery(String receiverID);
+	ArrayList<SMSHistory<T>> SMSHistoryQuery(String receiverID);
 }
