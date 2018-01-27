@@ -9,13 +9,9 @@ package chatting.vo;
 public class User {
 	/** 用户id，手机号 */
 	String userID;
-	/** 手机号注册IP */
-	String userIP;
-	/** 在线状态 */
-	boolean onlineStatus;
-	/** 手机号是否被冻结 */
+	/** 是否被冻结 */
 	boolean frozenStatus;
-	/** 手机号余额 */
+	/** 余额 */
 	float balance;
 	/** 是否开通SP服务 */
 	boolean openSP;
@@ -26,24 +22,13 @@ public class User {
 		super();
 	}
 
-	public User(String userID, String userIP, boolean onlineStatus, boolean frozenStatus, float balance, boolean openSP,
-			String password) {
+	public User(String userID, boolean frozenStatus, float balance, boolean openSP, String password) {
 		super();
 		this.userID = userID;
-		this.userIP = userIP;
-		this.onlineStatus = onlineStatus;
 		this.frozenStatus = frozenStatus;
 		this.balance = balance;
 		this.openSP = openSP;
 		this.password = password;
-	}
-
-	public String getUserIP() {
-		return userIP;
-	}
-
-	public boolean isOnlineStatus() {
-		return onlineStatus;
 	}
 
 	public boolean isFrozenStatus() {
@@ -64,14 +49,6 @@ public class User {
 
 	public void setUserID(String userID) {
 		this.userID = userID;
-	}
-
-	public void setUserIP(String userIP) {
-		this.userIP = userIP;
-	}
-
-	public void setOnlineStatus(boolean onlineStatus) {
-		this.onlineStatus = onlineStatus;
 	}
 
 	public void setFrozenStatus(boolean frozenStatus) {

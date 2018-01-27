@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  *
  */
 public class TransactionRecord {
-	/** 用户id，手机号 */
+	/** 用户id */
 	String userID;
 	/** SP服务id */
 	String spID;

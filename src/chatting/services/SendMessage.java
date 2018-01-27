@@ -1,75 +1,34 @@
 package chatting.services;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
-import chatting.dao.UserDao;
-import chatting.daoInter.UserDaoInter;
-import chatting.util.Constant;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.util.HashMap;
+
 import chatting.vo.Message;
-import chatting.vo.User;
+import chatting.vo.UserOnline;
 
 /**
- * 一次性发送socket，发送完成后释放
+ * udp穿透轮询发送消息
  * 
  * @author Administrator
  *
  */
 public class SendMessage {
-	/** 创建端口 */
-	Socket socket = null;
-	/** 端口号 */
-	int PORT = Constant.getClientSMSPort();
-	/** IP地址 */
-	String IP = "127.0.0.1";
-	/** SMS */
-	Message message = null;
-	PrintWriter pWriter = null;
-	UserDaoInter uDao = new UserDao();
+	private static HashMap<UserOnline, Message<?>> sendList;
 
 	/**
-	 * 发送短信
+	 * 外部调用的Message发送方法
 	 * 
-	 * @param ip
-	 *            目标
-	 * @param formatSMS
-	 *            短信
+	 * @param userID
+	 *            目标用户ID
+	 * @param message
+	 *            消息对象
+	 * @return 第一次请求发送结果状态码，1---发送成功；2---发送失败，用户不存在，消息取消；3---发送失败，用户不在线，加入轮询表
 	 */
-	public SendMessage(Message message) {
-		super();
-		this.message = message;
+	public static int callTransmitter(String userID, Message<?> message) {
+		UserOnline uOnline = new UserOnline();
+		sendList.put(uOnline, message);
+		return 0;
 	}
 
-	/**
-	 * 短信发送
-	 * 
-	 * @return true-发送成功；false-发送失败，对方可能不在线
-	 */
-	public boolean send() {
-		boolean status = false;
-		String targetAddress = message.getTargetId();
-		User user = uDao.getUser(targetAddress);
-		IP = user.getUserIP();
-		if (IP.equals("0.0.0.0") || user.isFrozenStatus() || !user.isOnlineStatus()) {
-			status = false;
-		} else {
-			try {
-				socket = new Socket(IP, PORT);
-				pWriter = new PrintWriter(socket.getOutputStream());
-				status = true;
-			} catch (Exception e) {
-				e.printStackTrace();
-				status = false;
-			} finally {
-				try {
-					pWriter.close();// 关闭连接
-					socket.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		return status;
-	}
 }

@@ -18,10 +18,9 @@ import chatting.dao.SPDao;
 import chatting.dao.UserDao;
 import chatting.daoInter.SPDaoInter;
 import chatting.daoInter.UserDaoInter;
-import chatting.servicesInter.QueryWeatherInter;
 import net.sf.json.JSONObject;
 
-public class QueryWeatherService implements QueryWeatherInter {
+public class QueryWeatherService{
 	SPDaoInter spdao = new SPDao();
 	UserDaoInter userDao = new UserDao();
 
@@ -194,7 +193,6 @@ public class QueryWeatherService implements QueryWeatherInter {
 		return weekStr;
 	}
 
-	@Override
 	public String queryWeather(String cityID, Date date) {
 		// TODO Auto-generated method stub
 		String result = "无天气记录";

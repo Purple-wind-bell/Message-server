@@ -44,10 +44,4 @@ public interface UserDaoInter {
 	 */
 	User getUser(String userID);
 
-	/**
-	 * 获得所有用户ID
-	 * 
-	 * @return
-	 */
-	ArrayList<User> getAllUser();
 }
