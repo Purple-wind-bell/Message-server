@@ -1,7 +1,6 @@
 package chatting.vo;
 
 import java.io.Serializable;
-import chatting.util.MessageCheck;
 
 /**
  * 客户端与服务器进行信息传输的协议类
@@ -58,7 +57,7 @@ public class Message<T> implements Serializable {
 		this.status = status;
 		this.content = content;
 		this.contentType = this.content.getClass().getName();
-		this.checkCode = MessageCheck.getParityCode(content.toString());
+		this.checkCode = Integer.toString(content.toString().length() / 2);
 
 	}
 

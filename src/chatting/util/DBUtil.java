@@ -24,8 +24,7 @@ public class DBUtil {
 		Connection connection = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection(Constant.getMysqlUrl(), Constant.getMysqlUser(),
-					Constant.getMysqlPasswd());
+			connection = DriverManager.getConnection(Constant.MYSQL_URL, Constant.MYSQL_USER, Constant.MYSQL_PASSWORD);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
